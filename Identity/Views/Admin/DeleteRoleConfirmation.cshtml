@@ -1,0 +1,23 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Delete Role";
+}
+<br />
+<br />
+<br />
+<div class="col-12 d-flex justify-content-center align-items-center">
+    <header>
+        <h2 class="display-6">Are you sure you want to delete @Model role?</h2>
+    </header>
+</div>
+<br />
+<br />
+
+<div class="column d-flex justify-content-center align-items-center">
+    <form asp-action="DeleteRole" method="post">
+        <input type="hidden" name="roleName" value=@Model />
+        <button class="btn btn-secondary" type="submit">Yes</button>
+    </form>
+    <a class="btn btn-secondary" style="margin-left:20px" asp-action="ManageRoles" role="button">No</a>
+</div>

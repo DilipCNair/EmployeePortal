@@ -1,0 +1,265 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@* Notification *@
+@if (ViewBag.Notification != null)
+{
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="~/images/Employee.png" style="height:20px;width:20px" class="rounded me-2" alt="...">
+                <strong class="me-auto">Account Notification</strong>
+                <small>now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div id="ToastBody" class="toast-body d-flex justify-content-center align-items-center" 
+                 style="height:70px;">
+                @ViewBag.Notification
+            </div>
+        </div>
+    </div>
+}
+
+@* Account header *@
+<div class="col-12 d-flex">
+    <header>
+        <h2 class="display-5">Account</h2>
+    </header>
+</div>
+<hr /><br />
+
+@* Email *@
+<div class="row mb-3">
+    <label for="Email" class="col-sm-2 col-form-label">Email : </label>
+    <div class="col-sm-4 d-flex align-items-center">
+        <input type="email" disabled class="form-control" value="@User?.Identity?.Name" id="Email">       
+        <a id="VerifyEmail" style="margin-left:20px"
+            class="link-offset-2 link-underline link-underline-opacity-0" href="#">Verify</a>       
+        <a id="ChangeEmail" style="margin-left:15px" 
+            class="link-offset-2 link-underline link-underline-opacity-0" href="#">Change</a>             
+    </div>
+</div>
+<br />
+
+@* Change Password *@
+<div class="row mb-3">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4">
+        <a style="font-size:16px" class="link-offset-2 link-underline link-underline-opacity-0" 
+        asp-action="ChangePassword">Change Password</a>
+    </div>
+</div>
+<br /><hr /><br />
+
+@* Update Profile Picture *@
+@if (Model.ProfilePic is not null)
+{
+    <div class="row mb-3">
+        <label for="Email" class="col-sm-2 col-form-label">Profile Picture : </label>
+        <div class="col-sm-4 d-flex align-items-center">
+            <img src=@Model.ProfilePic style="border-radius:50%;width:125px;height:125px" alt="profile picture" /><br />
+            <div class="ms-3">
+                <a id="ChangePicture" asp-action="Picture" style="width:Auto;margin-left:20px" class="btn btn-outline-secondary">Change</a>
+            </div>
+            <div class="ms-3">
+                <form id="RemovePictureForm" method="post" asp-action="RemovePicture">
+                    <button id="RemovePicture" class="btn btn-dark" type="button">Remove</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row mb-3">
+        <label for="Email" class="col-sm-2 col-form-label">Profile Picture : </label>
+        <div class="col-sm-4 d-flex align-items-center">
+            <img src="https://localhost/images/blank_profile_pic.png"
+                 style="border-radius:50%;width:125px;height:125px" alt="profile picture" /><br />
+            <div class="ms-3">
+                <a id="ChangePicture" asp-action="Picture" style="width:Auto;margin-left:20px" class="btn btn-outline-secondary">Change</a>
+            </div>
+            <div class="ms-3">
+                <button id="RemovePicture" style="width:Auto" disabled class="btn btn-dark">Remove</button>
+            </div>
+        </div>
+    </div>
+}
+<br /><hr/>
+
+
+@* Basic Details *@
+<p style="font-size:20px">Basic details :</p><br/>
+<form id="BasicDetails" method="post" asp-action="UpdateBasicDetails" class="row g-3">
+    <div class="col-md-4">
+        <label for="FirstName" class="form-label">First Name</label>
+        <input type="text" disabled asp-for="FirstName" class="form-control" id="FirstName">
+    </div>
+    <div class="col-md-4">
+        <label for="MiddleName" class="form-label">Middle Name</label>
+        <input type="text" disabled asp-for="MiddleName" class="form-control" id="MiddleName">
+    </div>
+    <div class="col-md-4">
+        <label for="LastName" class="form-label">Last Name</label>
+        <input type="text" disabled asp-for="LastName" class="form-control" id="LastName">
+    </div>
+    <div class="col-md-4">
+        <label for="GovermentId" class="form-label">Id Proof (Driving License)</label>
+        <input type="text" disabled asp-for="GovermentId" class="form-control" id="GovermentId">
+    </div>
+    <div class="col-md-4">
+        <label for="EmployeeGender" class="form-label">Gender</label>
+        <select disabled asp-for="EmployeeGender" class="form-select" asp-items="Html.GetEnumSelectList<Gender>()">        
+        </select>
+    </div>    
+    <div class="col-md-4">
+        <label for="Salary" class="form-label">Annual Salary in USD</label>
+        <input type="text" disabled id="Salary" name="Salary" asp-for="Salary" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label for="Birthdate" class="form-label">Date of Birth</label>
+        <input type="date" asp-for="DateOfBirth" disabled id="DateOfBirth" name="DateOfBirth" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label for="EmployeeDepartMent" class="form-label">Department</label>
+            <select disabled asp-for="EmployeeDepartMent" class="form-select"
+                    asp-items="Html.GetEnumSelectList<Department>()">
+            </select>
+    </div> 
+    @* <div class="col-md-1">
+        <label for="CountryCode" class="form-label">Country</label>
+        <input type="text" disabled asp-for="CountryCode" class="form-control" id="CountryCode" placeholder="eg: +91">
+    </div>
+    <div class="col-md-3">
+        <label for="MobileNumber" class="form-label">Mobile No</label>
+        <input type="text" disabled asp-for=MobileNumber class="form-control" id="MobileNumber">
+    </div> *@
+    <div class="col-12" style="margin-top:25px">
+        <button type="button" id="EditDetails" style="width:75px" class="btn btn-outline-secondary">Edit</button>
+        <button type="submit" id="UpdateDetails" class="btn btn-dark" disabled style="margin-left:10px">Update</button>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+</form>
+<br/><br/><hr />
+
+@* Addres *@
+<p style="font-size:20px">Address :</p><br />
+<form id="Address" method="post" asp-controller="Account" asp-action="UpdateAddress" class="row g-3">
+    <div class="col-md-6">
+        <label for="Nationality" class="form-label">Nationality</label>
+        <input type="text" name="Country" disabled asp-for="EmployeeAddress.Country" class="form-control" id="Nationality">
+    </div>
+    <div class="col-md-6">
+        <label for="HouseNo" class="form-label">House No</label>
+        <input type="text" name="HouseNo" disabled asp-for="EmployeeAddress.HouseNo" class="form-control" id="HouseNo">
+    </div>  
+    <div class="col-md-8">
+        <label for="Address" class="form-label">Address</label>
+        <input type="text" name="Street" disabled asp-for="EmployeeAddress.Street" class="form-control" id="Address">
+    </div>
+    <div class="col-md-4">
+        <label for="Landmark" class="form-label">Landmark (Optional)</label>
+        <input type="text" name="Landmark" disabled asp-for="EmployeeAddress.Landmark" class="form-control" id="Landmark">
+    </div>
+    <div class="col-md-6">
+        <label for="City" class="form-label">City</label>
+        <input type="text" name="City" disabled asp-for="EmployeeAddress.City" class="form-control" id="City">
+    </div>
+    <div class="col-md-2">
+        <label for="State" class="form-label">State</label>
+        <input type="text" name="State" disabled asp-for="EmployeeAddress.State" class="form-control" id="State">
+    </div>
+    <div class="col-md-4">
+        <label for="Zip" class="form-label">Zip</label>
+        <input type="text" name="PinCode" disabled asp-for="EmployeeAddress.PinCode" class="form-control" id="Zip">
+    </div>
+    <div class="col-12" style="margin-top:25px">
+        <button type="button" id="EditAddress" style="width:75px" class="btn btn-outline-secondary">Edit</button>
+        <button type="submit" id="UpdateAddress" class="btn btn-dark" disabled style="margin-left:10px">Update</button>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</form>
+<br /><br /><hr /><br/><br/>
+
+@* Mobile Number *@
+<div class="row mb-3">
+    <label for="MobileNumber" class="col-sm-2 col-form-label">Mobile Number : </label>
+    <div class="col-sm-4 d-flex align-items-center">
+        <input type="text" style="width:80px" disabled asp-for="CountryCode" class="form-control"
+               id="CountryCode" placeholder="eg: +91">
+        <input type="text" style="margin-left:15px" disabled asp-for=MobileNumber class="form-control" 
+               id="MobileNumber">
+        <div class="ms-3">
+            <a id="VerifyNumber" style="margin-left:15px"
+               class="link-offset-2 link-underline link-underline-opacity-0" href="#">Verify</a>
+        </div>
+        <div class="ms-3">
+            <a id="ChangeNumber" style="margin-left:8px"
+               class="link-offset-2 link-underline link-underline-opacity-0" href="#">Edit</a>
+        </div>
+    </div>
+</div>
+<br /><br /><hr /><br /><br />
+
+@* Delete account *@
+<div class="d-flex justify-content-center">
+    <a class="btn btn-dark" asp-action="ConfirmDelete">Delete your account</a>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        // To enable notifications in profile
+        document.addEventListener('DOMContentLoaded', function () {
+            const toastLiveExample = document.getElementById('liveToast');
+            if (toastLiveExample) {
+                const toastBootstrap = new bootstrap.Toast(toastLiveExample);
+                toastBootstrap.show();
+            }
+        });
+
+        // To enable update button when user clicks on edit button for address and
+        // basic details form
+        $(document).ready(function () {
+            // For BasicDetails form
+            $('#EditDetails').click(function () {
+                if ($(this).text() === "Edit") {
+                    $('#BasicDetails input[type=text], #BasicDetails input[type=email], #BasicDetails select, #BasicDetails input[type=date]').prop('disabled', false);
+                    $('#UpdateDetails').prop('disabled', false);
+                    $(this).text("Cancel");
+                } else {
+                    location.reload(); // Reload the page to cancel editing
+                }
+            });
+
+            // For Address form
+            $('#EditAddress').click(function () {
+                if ($(this).text() === "Edit") {
+                    $('#Address input[type=text]').prop('disabled', false);
+                    $('#UpdateAddress').prop('disabled', false);
+                    $(this).text("Cancel");
+                } else {
+                    location.reload(); // Reload the page to cancel editing
+                }
+            });
+        });
+
+        // To ask a dialog when you try to remove a profile pic in profile
+        $(document).ready(function () {
+            $("#RemovePicture").click(function () {
+                if (confirm("Are you sure you want to remove your profile picture?")) {
+                    $("#RemovePictureForm").submit();
+                }
+            });
+        });
+    </script>
+}

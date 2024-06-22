@@ -1,0 +1,105 @@
+﻿@inject SignInManager<Employee> signinManager
+@inject UserManager<Employee> userManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap5.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Identity.styles.css" asp-append-version="true" />
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.4.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+    <header>     
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @if (!signinManager.IsSignedIn(User))
+                    {
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">                          
+                            <li class="nav-item">                               
+                                <a class="nav-link" asp-action="Index">
+                                    <i class="bi bi-house"></i>Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Signin">
+                                    <i class="bi bi-person-fill"></i>Signin
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Home">
+                                    <i class="bi bi-house-fill"></i>Home
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-fill"></i>@User.Identity?.Name
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    @if(User.IsInRole("Admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-action="ManageUsers" asp-controller="Admin">
+                                                <i class="bi bi-people-fill" style="margin-right:8px"></i>Manage Users
+                                            </a>
+                                        </li>
+                                        <li><a class="dropdown-item" asp-action="ManageRoles" asp-controller="Admin">
+                                                <i class="bi bi-person-fill-gear" style="margin-right:8px"></i>Manage Roles
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
+                                    
+                                    <li><a class="dropdown-item" asp-action="Profile" asp-controller="Account">
+                                            <i class="bi bi-person-circle" style="margin-right:8px"></i>Account
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Signout" method="post">
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="bi bi-box-arrow-right" style="margin-right:8px"></i>Signout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>                        
+                    }
+                </div>
+            </div>
+        </nav><br/>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">          
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

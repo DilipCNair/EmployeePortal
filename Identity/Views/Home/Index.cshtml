@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    .image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .paragraph {
+        display: flex;
+        color: dimgrey;
+        font-size: 46px;
+        font-weight: 200
+    }
+</style>
+
+<div class="d-flex justify-content-center" style="margin-top:7%">
+     <img src="~/images/EmployeeInCoat.png" class="image">
+</div>
+<br />
+<br />
+
+<div class="d-flex justify-content-center">
+    <p class="paragraph">Welcome to Employee Portal</p>
+</div><br/><br/>
+
+<div class="text-center" style="text-align:justify-all;font-size:20px;color:dimgray">
+   @*  <p >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel arcu sollicitudin, tempus risus ac, posuere erat.
+        Donec suscipit congue mauris in pretium. Duis pellentesque tempor diam, id malesuada ligula ultrices nec. 
+        Praesent ornare augue molestie enim eleifend, sit amet efficitur est ornare. Nam eget gravida justo. Duis mollis 
+        vitae nulla a facilisis. Phasellus hendrerit dictum risus eu suscipit. Aenean iaculis ut enim eget blandit. Morbi luctus sit amet neque a vestibulum. Sed tristique, felis at tincidunt 
+        facilisis, augue metus convallis sapien, nec ullamcorper turpis lectus eget metus. Suspendisse volutpat iaculis 
+        ipsum feugiat luctus. Suspendisse potenti. Sed nec mi at neque dictum dictum nec condimentum neque. Vestibulum 
+        gravida ex at dui interdum, quis accumsan felis rhoncus. Nulla dignissim augue id eros varius, sit amet volutpat 
+        justo aliquet. In euismod massa enim, et pulvinar magna posuere id. Aliquam et sem vestibulum arcu pellentesque 
+        varius. Vestibulum blandit mauris sed nunc eleifend, a ultrices mi vulputate. Curabitur ornare mi quis vehicula 
+        cursus. Maecenas molestie lorem nibh, non varius leo condimentum ultrices. Aenean quis dolor quis elit faucibus dictum.
+       
+    </p> *@
+
+@*     <p>Maecenas molestie lorem nibh, non varius leo condimentum ultrices. Aenean quis dolor quis elit faucibus dictum. 
+    In sollicitudin porta lacus, nec venenatis arcu bibendum sed. Nullam consectetur tempus lectus, a iaculis velit 
+    consequat tempus. Aenean consequat sapien quis mauris ultrices condimentum. Phasellus facilisis ipsum sed lectus 
+    commodo, in pretium libero vehicula. In et sem quis justo rutrum vestibulum porttitor in mi. Curabitur pellentesque 
+    urna at eros tempor, ut pulvinar tortor eleifend. In hac habitasse platea dictumst. Pellentesque at hendrerit urna. 
+    Ut est libero, semper ac viverra non, gravida id ipsum. Etiam aliquet dui congue, volutpat lorem at, molestie erat. 
+    Nullam eu viverra sem. Sed faucibus quis nisl quis fermentum. Phasellus molestie luctus erat vitae malesuada. 
+    Donec ac elit vitae sem consectetur lobortis.</p> *@
+
+    @* <p>Nunc vestibulum sodales leo quis molestie. Proin at velit facilisis sem tristique vehicula. Quisque consequat 
+    ultrices luctus. Sed auctor orci id dolor gravida sagittis. Proin ut nulla nec sapien cursus faucibus pharetra 
+    non nibh. Nulla pulvinar felis in magna malesuada dapibus. Quisque feugiat quis nunc sit amet ornare. 
+    Nulla et finibus orci, ut luctus turpis. Nullam sapien libero, laoreet non nisl a, rutrum molestie erat. 
+    Nam ornare a purus non congue. Praesent at tempus lacus. Nam convallis ex rhoncus ullamcorper egestas. 
+    Phasellus odio velit, posuere hendrerit mollis quis, mollis sed metus. Suspendisse ut auctor nisi. 
+    Etiam lacinia lacus et tellus rhoncus tempor. Aliquam ut porta lorem, vitae aliquam ex. Aenean dolor diam, congue et ullamcorper eget, suscipit egestas nunc. 
+    Sed ullamcorper, dolor id pharetra eleifend, sem leo consectetur felis, a sagittis lectus nisi id magna. 
+    Pellentesque consectetur, massa ut condimentum molestie, urna elit hendrerit lacus, eget commodo libero est sit 
+    amet est. Nulla facilisi. Ut vestibulum ipsum ullamcorper velit lacinia varius. Nullam faucibus ex et libero bibendum,
+    ut finibus mauris sagittis. In vulputate nec tellus et egestas. Vivamus ultrices volutpat massa sed finibus. 
+    Aliquam aliquet tincidunt ultricies.
+</p> *@
+</div>
+
+<div class="row d-flex justify-content-center mb-4">
+    <a asp-action="Signup" style="height:40px;" 
+        class="row btn btn-dark rounded-pill w-25">
+        Create account
+    </a>
+</div>
+<div class="row d-flex justify-content-center">
+    <a asp-action="Signin" style="height:40px;" 
+        class="row btn btn-dark rounded-pill w-25">
+        Signin
+    </a>
+</div>    
+
+

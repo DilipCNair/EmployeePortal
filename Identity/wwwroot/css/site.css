@@ -1,0 +1,109 @@
+/*html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}*/
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+
+/*.form-control {
+    margin-top: 3px;
+}*/
+
+/*.btn#Submit {
+    width: 100%;
+}*/
+
+/*.btn#Update {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}*/
+
+.table-striped tbody tr:nth-child(even) {
+}
+
+.table-striped tbody tr:nth-child(odd) {
+}
+
+.LinkContainer {
+    text-align: center;
+}
+
+.table {
+    overflow-x: auto;
+}
+
+.nav-link i {
+    margin-right: 5px; /* Adjust the padding as needed */
+}
+
+.navbar-dark .navbar-nav .nav-link
+{
+    color: lightgrey
+}
+
+.navbar-dark .navbar-nav .nav-link:hover
+{
+    color: white
+}
+
+/*.navbar-nav {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}*/
+
+/* For text fields */
+/*.form-control {
+    border-color: lightgray;
+}*/
+
+/* For password fields */
+/*.form-control[type="password"] {
+    border-color: lightgray;
+}*/
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Create Roles";
+}
+
+<div class="col-12 d-flex justify-content-center align-items-center">
+    <header>
+        <h2 class="display-6">Update an existing role</h2>
+    </header>
+</div>
+<br />
+
+<form asp-action="UpdateRole" method="post">
+    <!-- Second Input Field (Deactivated/Disabled) -->
+    <div class="form-group">
+        <label for="CurrentRole">Current role name</label>
+        <input type="text" class="form-control" id="CurrentRole" placeholder=@Model disabled>
+    </div>
+    <br/>
+    <!-- First Input Field -->
+    <div class="form-group">
+        <label for="NewRole">New role name</label>
+        <input type="text" class="form-control" name="newRoleName" id="NewRole" placeholder="Role Name">
+    </div>
+
+    <input type="hidden" name="currentRoleName" value=@Model />
+
+    
+    <br/>
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a class="btn btn-primary" style="margin-left:5px" asp-action="ManageRoles">Cancel</a>
+</form>

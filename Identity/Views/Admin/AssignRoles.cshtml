@@ -1,0 +1,84 @@
+﻿@model AssignRoleViewModel
+@{
+    ViewData["Title"] = "Assign Roles";
+}
+
+<div class="col-12 d-flex justify-content-center align-items-center">
+    <header>
+        <h2 class="display-6">Assign Roles</h2>
+    </header>
+</div>
+<br />
+
+<form action="" method="post" id="AssignRolesForm">
+    <div class="form-group">
+        <label for="Email">Username</label>
+        <input type="text" class="form-control" asp-for="Username" placeholder=@Model.Username disabled>
+        <input type="hidden" class="form-control" asp-for="Email" placeholder=@Model.Email>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Rolenames">Current Roles</label>
+        <ul id="Rolenames">
+            @if (Model.CurrentRoles!=null && Model.CurrentRoles.Any())
+            {
+                @foreach (var role in Model.CurrentRoles)
+                {
+                    <li>@role</li>
+                }
+            }
+            else
+            {
+                <li>Not in any roles</li>
+            }
+        </ul>
+        <input type="hidden" asp-for="CurrentRoles" value=@Model.CurrentRoles />
+    </div>
+    <br />
+
+    
+
+    <div class="form-group">
+    <label for="SelectedRole" class="control-label">Select a Role</label>
+        <select id="AllRoles" name="AllRoles" class="form-control">
+            <option value="">Please Select</option>
+            @if (Model.AllRoles != null && Model.AllRoles.Any())
+            {
+                @foreach (var item in Model.AllRoles)
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+            else
+            {
+                <option value="">No data received from the server</option>
+            }
+        </select>
+    </div>
+    <input type="hidden" asp-for="AllRoles" value=@Model.AllRoles />
+    <br />
+
+    <input type="hidden" name="userName" value=@Model.Email />
+    <input type="hidden" id="SelectedRole" name="SelectedRole"  />
+
+    <button type="submit" formaction="AddUserToRole" class="btn btn-primary" >Assign</button>   
+    <button type="submit" formaction="RemoveUserFromRole" style="margin-left:5px" class="btn btn-primary">Unassign</button>
+    <a class="btn btn-primary" style="margin-left:5px" asp-action="ManageUsers">Done</a>
+</form>
+
+<br/>
+@* @Html.ValidationSummary(true, "", new { @class = "text-danger" }) *@
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#AllRoles').change(function () {
+                var selectedItem = $('#AllRoles').val();
+                $('#SelectedRole').val(selectedItem);
+            });
+        });
+    </script>
+}

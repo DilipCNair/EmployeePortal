@@ -1,0 +1,189 @@
+﻿@model SignupViewModel
+
+@{
+    ViewData["Title"] = "Signup";
+}
+
+<div class="d-flex justify-content-center">
+        <h1 class="display-4">Sign Up</h1>
+</div>
+<br/> <br/>
+
+
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form method="post" asp-action="Signup" class="row g-2">
+            <div class="mb-3">
+                @* <label for="Email" class="form-label">Email</label> *@
+                <input type="email" asp-for="Email" style="height:50px" class="form-control" 
+                       placeholder="Enter your email" id="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @* <label for="Password" class="form-label">Password</label> *@
+                <input type="password" style="height:50px" asp-for="Password" 
+                       class="form-control" placeholder="Create a password" id="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @* <label for="ConfirmPassword" class="form-label">Confirm Password</label> *@
+                <input type="password" style="height:50px" asp-for="ConfirmPassword" 
+                       class="form-control" placeholder="Confirm your password" 
+                       id="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" style="border-color:gray" 
+                           id="formcheck">
+                    <label class="form-check-label" for="formcheck">
+                        I have read and accept all the
+                        <button type="button" class="link-button link-offset-2 link-underline link-underline-opacity-0" id="TandC"
+                                data-bs-toggle="modal"
+                                data-bs-target="#TermsAndConditions">
+                                terms and conditions
+                        </button>
+                        and 
+                        <button type="button" class="link-button link-offset-2 link-underline link-underline-opacity-0" id="Privacy"
+                                data-bs-toggle="modal"
+                                data-bs-target="#PrivacyPolicy">
+                                privacy policy
+                        </button>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <button type="submit" style="height:40px"
+                        class="btn btn-dark rounded-pill w-100">
+                    Signup
+                </button>
+            </div>
+            <div class="text-center mt-3">
+                <p>
+                    Already have an account?
+                    <a class="link-offset-2 link-underline link-underline-opacity-0"
+                       asp-action="Signin">Signin</a>
+                </p>
+            </div>
+            @* <div class="d-flex justify-content-between">
+                <button type="submit" style="width:50%;height:40px" id="submitButton" disabled 
+                        class="btn btn-dark rounded-pill">Sign up</button>
+                <a class="btn btn-outline-dark rounded-pill" style="margin-left:10px;width:50%;height:40px" 
+                   asp-controller="Home" asp-action="Signin">Cancel</a> 
+            </div> *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal for Terms and Conditions -->
+<div class="modal fade" id="TermsAndConditions" data-bs-backdrop="static" data-bs-keyboard="false" 
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Terms and Conditions</h1>
+                <input type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+            </div>
+            <div class="modal-body">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ac orci phasellus egestas tellus rutrum tellus. Velit ut tortor pretium viverra suspendisse potenti nullam ac tortor. At auctor urna nunc id cursus. Nisl nunc mi ipsum faucibus vitae aliquet. Blandit massa enim nec dui nunc mattis enim ut tellus. Nam at lectus urna duis convallis convallis tellus id. Mauris in aliquam sem fringilla ut morbi. Malesuada fames ac turpis egestas maecenas pharetra convallis. Nunc mattis enim ut tellus elementum sagittis. Arcu non odio euismod lacinia at quis risus sed. Turpis egestas integer eget aliquet.
+                Consequat ac felis donec et odio pellentesque diam. Consectetur lorem donec massa sapien. At tempor commodo ullamcorper a lacus vestibulum. Auctor elit sed vulputate mi sit amet mauris commodo quis. At imperdiet dui accumsan sit amet nulla facilisi. Eu non diam phasellus vestibulum lorem sed risus. Tortor at risus viverra adipiscing at. Nunc aliquet bibendum enim facilisis gravida neque. Aliquet bibendum enim facilisis gravida neque convallis a cras. Arcu cursus euismod quis viverra nibh cras pulvinar. Pretium quam vulputate dignissim suspendisse in est ante. Ipsum a arcu cursus vitae congue mauris rhoncus aenean.
+
+                Magna ac placerat vestibulum lectus mauris ultrices eros. Vitae purus faucibus ornare suspendisse sed nisi. Viverra orci sagittis eu volutpat odio facilisis. Quis vel eros donec ac odio tempor orci dapibus. Pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna. Enim eu turpis egestas pretium. Quis risus sed vulputate odio ut enim. Ac turpis egestas sed tempus urna et. Porta non pulvinar neque laoreet suspendisse interdum consectetur. Ipsum consequat nisl vel pretium lectus. Ac ut consequat semper viverra nam libero justo laoreet. Lectus arcu bibendum at varius vel pharetra vel. Convallis a cras semper auctor neque vitae tempus. Turpis in eu mi bibendum neque.
+
+                Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat. Vel pharetra vel turpis nunc eget lorem. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Nisi scelerisque eu ultrices vitae auctor eu augue. Donec pretium vulputate sapien nec sagittis aliquam. Nulla at volutpat diam ut venenatis tellus in metus vulputate. Nibh tortor id aliquet lectus proin nibh nisl condimentum id. Blandit aliquam etiam erat velit scelerisque in dictum non. Sem et tortor consequat id porta nibh venenatis cras. Tincidunt eget nullam non nisi est. Nulla malesuada pellentesque elit eget gravida cum sociis natoque. Aenean pharetra magna ac placerat vestibulum. Mauris ultrices eros in cursus turpis massa. Magna eget est lorem ipsum dolor sit amet consectetur. Rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Est ante in nibh mauris cursus mattis molestie a iaculis. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Ut faucibus pulvinar elementum integer enim. Fermentum iaculis eu non diam phasellus vestibulum.
+
+                Sed risus ultricies tristique nulla aliquet enim tortor at auctor. A diam sollicitudin tempor id eu nisl nunc. Vivamus arcu felis bibendum ut tristique et egestas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Id velit ut tortor pretium viverra suspendisse potenti nullam ac. Vel turpis nunc eget lorem dolor sed viverra. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Eget nunc scelerisque viverra mauris in aliquam sem. Viverra suspendisse potenti nullam ac tortor. Scelerisque felis imperdiet proin fermentum leo vel orci porta non. Volutpat sed cras ornare arcu dui vivamus arcu. Nisl vel pretium lectus quam id leo in. Arcu non sodales neque sodales ut etiam. Nulla facilisi morbi tempus iaculis urna id. Phasellus faucibus scelerisque eleifend donec pretium vulputate.
+
+                Amet mauris commodo quis imperdiet massa tincidunt. A pellentesque sit amet porttitor eget dolor morbi. Quisque id diam vel quam elementum. Egestas pretium aenean pharetra magna ac. Aliquam malesuada bibendum arcu vitae elementum curabitur. Fames ac turpis egestas sed tempus urna. Enim facilisis gravida neque convallis a cras semper auctor. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Lobortis mattis aliquam faucibus purus in massa tempor nec feugiat. In iaculis nunc sed augue lacus viverra vitae. Facilisis volutpat est velit egestas dui id. Donec adipiscing tristique risus nec feugiat. Ut sem nulla pharetra diam sit amet nisl suscipit. Consequat id porta nibh venenatis cras sed felis eget velit.
+
+                Augue neque gravida in fermentum et sollicitudin ac orci phasellus. Felis bibendum ut tristique et egestas quis ipsum. Urna cursus eget nunc scelerisque viverra mauris in aliquam sem. Quisque id diam vel quam elementum pulvinar. Vitae sapien pellentesque habitant morbi tristique senectus et netus et. Varius quam quisque id diam vel quam elementum. Commodo odio aenean sed adipiscing. Molestie at elementum eu facilisis sed odio morbi. Et malesuada fames ac turpis egestas maecenas pharetra convallis posuere. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Tellus orci ac auctor augue mauris augue. Id venenatis a condimentum vitae sapien pellentesque habitant morbi. Interdum consectetur libero id faucibus nisl tincidunt eget.
+
+                Velit dignissim sodales ut eu sem integer. Purus sit amet volutpat consequat mauris. Ac ut consequat semper viverra nam libero justo laoreet. Proin nibh nisl condimentum id venenatis a condimentum vitae sapien. Maecenas accumsan lacus vel facilisis. Risus feugiat in ante metus dictum at. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Ac turpis egestas maecenas pharetra. In eu mi bibendum neque egestas congue quisque. Lacus viverra vitae congue eu consequat ac felis donec. Eget egestas purus viverra accumsan in nisl nisi scelerisque. Gravida in fermentum et sollicitudin ac orci phasellus egestas tellus. Aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer. Ultrices gravida dictum fusce ut placerat orci. Elementum curabitur vitae nunc sed velit dignissim sodales. Diam vel quam elementum pulvinar etiam non. Scelerisque felis imperdiet proin fermentum leo vel.
+
+                Gravida rutrum quisque non tellus orci ac auctor augue mauris. Quis risus sed vulputate odio. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Sit amet facilisis magna etiam tempor. Sit amet risus nullam eget. Fringilla ut morbi tincidunt augue interdum velit euismod. Dapibus ultrices in iaculis nunc sed augue lacus viverra vitae. Odio facilisis mauris sit amet. Id diam vel quam elementum pulvinar etiam non quam lacus. Scelerisque felis imperdiet proin fermentum. Fermentum dui faucibus in ornare quam viverra. Pellentesque diam volutpat commodo sed. Accumsan tortor posuere ac ut consequat semper viverra. Senectus et netus et malesuada fames ac. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Id cursus metus aliquam eleifend mi in nulla posuere sollicitudin. Facilisi etiam dignissim diam quis. Ultrices vitae auctor eu augue ut lectus. Sed egestas egestas fringilla phasellus faucibus. Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque.
+
+                Ipsum dolor sit amet consectetur adipiscing. Ornare arcu dui vivamus arcu. Sed viverra ipsum nunc aliquet bibendum. Congue eu consequat ac felis. Interdum varius sit amet mattis vulputate. Consequat mauris nunc congue nisi vitae suscipit tellus. Interdum consectetur libero id faucibus nisl tincidunt eget nullam non. Vitae sapien pellentesque habitant morbi tristique. Vitae turpis massa sed elementum tempus. Sed tempus urna et pharetra pharetra massa massa ultricies. Mauris cursus mattis molestie a iaculis. Nec feugiat in fermentum posuere urna nec tincidunt praesent. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum. Metus aliquam eleifend mi in nulla posuere. Sed id semper risus in hendrerit. Placerat vestibulum lectus mauris ultrices eros in. Pellentesque habitant morbi tristique senectus et netus. Nulla facilisi morbi tempus iaculis urna id. Facilisi cras fermentum odio eu feugiat pretium. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus.
+            </div>
+            <div class="modal-footer">
+                @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">I Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Privacy Policy -->
+<div class="modal fade" id="PrivacyPolicy" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Privacy Policy</h1>
+                <input type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+            </div>
+            <div class="modal-body">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ac orci phasellus egestas tellus rutrum tellus. Velit ut tortor pretium viverra suspendisse potenti nullam ac tortor. At auctor urna nunc id cursus. Nisl nunc mi ipsum faucibus vitae aliquet. Blandit massa enim nec dui nunc mattis enim ut tellus. Nam at lectus urna duis convallis convallis tellus id. Mauris in aliquam sem fringilla ut morbi. Malesuada fames ac turpis egestas maecenas pharetra convallis. Nunc mattis enim ut tellus elementum sagittis. Arcu non odio euismod lacinia at quis risus sed. Turpis egestas integer eget aliquet.
+                Consequat ac felis donec et odio pellentesque diam. Consectetur lorem donec massa sapien. At tempor commodo ullamcorper a lacus vestibulum. Auctor elit sed vulputate mi sit amet mauris commodo quis. At imperdiet dui accumsan sit amet nulla facilisi. Eu non diam phasellus vestibulum lorem sed risus. Tortor at risus viverra adipiscing at. Nunc aliquet bibendum enim facilisis gravida neque. Aliquet bibendum enim facilisis gravida neque convallis a cras. Arcu cursus euismod quis viverra nibh cras pulvinar. Pretium quam vulputate dignissim suspendisse in est ante. Ipsum a arcu cursus vitae congue mauris rhoncus aenean.
+
+                Magna ac placerat vestibulum lectus mauris ultrices eros. Vitae purus faucibus ornare suspendisse sed nisi. Viverra orci sagittis eu volutpat odio facilisis. Quis vel eros donec ac odio tempor orci dapibus. Pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna. Enim eu turpis egestas pretium. Quis risus sed vulputate odio ut enim. Ac turpis egestas sed tempus urna et. Porta non pulvinar neque laoreet suspendisse interdum consectetur. Ipsum consequat nisl vel pretium lectus. Ac ut consequat semper viverra nam libero justo laoreet. Lectus arcu bibendum at varius vel pharetra vel. Convallis a cras semper auctor neque vitae tempus. Turpis in eu mi bibendum neque.
+
+                Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat. Vel pharetra vel turpis nunc eget lorem. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Nisi scelerisque eu ultrices vitae auctor eu augue. Donec pretium vulputate sapien nec sagittis aliquam. Nulla at volutpat diam ut venenatis tellus in metus vulputate. Nibh tortor id aliquet lectus proin nibh nisl condimentum id. Blandit aliquam etiam erat velit scelerisque in dictum non. Sem et tortor consequat id porta nibh venenatis cras. Tincidunt eget nullam non nisi est. Nulla malesuada pellentesque elit eget gravida cum sociis natoque. Aenean pharetra magna ac placerat vestibulum. Mauris ultrices eros in cursus turpis massa. Magna eget est lorem ipsum dolor sit amet consectetur. Rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Est ante in nibh mauris cursus mattis molestie a iaculis. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Ut faucibus pulvinar elementum integer enim. Fermentum iaculis eu non diam phasellus vestibulum.
+
+                Sed risus ultricies tristique nulla aliquet enim tortor at auctor. A diam sollicitudin tempor id eu nisl nunc. Vivamus arcu felis bibendum ut tristique et egestas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Id velit ut tortor pretium viverra suspendisse potenti nullam ac. Vel turpis nunc eget lorem dolor sed viverra. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Eget nunc scelerisque viverra mauris in aliquam sem. Viverra suspendisse potenti nullam ac tortor. Scelerisque felis imperdiet proin fermentum leo vel orci porta non. Volutpat sed cras ornare arcu dui vivamus arcu. Nisl vel pretium lectus quam id leo in. Arcu non sodales neque sodales ut etiam. Nulla facilisi morbi tempus iaculis urna id. Phasellus faucibus scelerisque eleifend donec pretium vulputate.
+
+                Amet mauris commodo quis imperdiet massa tincidunt. A pellentesque sit amet porttitor eget dolor morbi. Quisque id diam vel quam elementum. Egestas pretium aenean pharetra magna ac. Aliquam malesuada bibendum arcu vitae elementum curabitur. Fames ac turpis egestas sed tempus urna. Enim facilisis gravida neque convallis a cras semper auctor. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Lobortis mattis aliquam faucibus purus in massa tempor nec feugiat. In iaculis nunc sed augue lacus viverra vitae. Facilisis volutpat est velit egestas dui id. Donec adipiscing tristique risus nec feugiat. Ut sem nulla pharetra diam sit amet nisl suscipit. Consequat id porta nibh venenatis cras sed felis eget velit.
+
+                Augue neque gravida in fermentum et sollicitudin ac orci phasellus. Felis bibendum ut tristique et egestas quis ipsum. Urna cursus eget nunc scelerisque viverra mauris in aliquam sem. Quisque id diam vel quam elementum pulvinar. Vitae sapien pellentesque habitant morbi tristique senectus et netus et. Varius quam quisque id diam vel quam elementum. Commodo odio aenean sed adipiscing. Molestie at elementum eu facilisis sed odio morbi. Et malesuada fames ac turpis egestas maecenas pharetra convallis posuere. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Tellus orci ac auctor augue mauris augue. Id venenatis a condimentum vitae sapien pellentesque habitant morbi. Interdum consectetur libero id faucibus nisl tincidunt eget.
+
+                Velit dignissim sodales ut eu sem integer. Purus sit amet volutpat consequat mauris. Ac ut consequat semper viverra nam libero justo laoreet. Proin nibh nisl condimentum id venenatis a condimentum vitae sapien. Maecenas accumsan lacus vel facilisis. Risus feugiat in ante metus dictum at. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Ac turpis egestas maecenas pharetra. In eu mi bibendum neque egestas congue quisque. Lacus viverra vitae congue eu consequat ac felis donec. Eget egestas purus viverra accumsan in nisl nisi scelerisque. Gravida in fermentum et sollicitudin ac orci phasellus egestas tellus. Aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer. Ultrices gravida dictum fusce ut placerat orci. Elementum curabitur vitae nunc sed velit dignissim sodales. Diam vel quam elementum pulvinar etiam non. Scelerisque felis imperdiet proin fermentum leo vel.
+
+                Gravida rutrum quisque non tellus orci ac auctor augue mauris. Quis risus sed vulputate odio. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Sit amet facilisis magna etiam tempor. Sit amet risus nullam eget. Fringilla ut morbi tincidunt augue interdum velit euismod. Dapibus ultrices in iaculis nunc sed augue lacus viverra vitae. Odio facilisis mauris sit amet. Id diam vel quam elementum pulvinar etiam non quam lacus. Scelerisque felis imperdiet proin fermentum. Fermentum dui faucibus in ornare quam viverra. Pellentesque diam volutpat commodo sed. Accumsan tortor posuere ac ut consequat semper viverra. Senectus et netus et malesuada fames ac. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Id cursus metus aliquam eleifend mi in nulla posuere sollicitudin. Facilisi etiam dignissim diam quis. Ultrices vitae auctor eu augue ut lectus. Sed egestas egestas fringilla phasellus faucibus. Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque.
+
+                Ipsum dolor sit amet consectetur adipiscing. Ornare arcu dui vivamus arcu. Sed viverra ipsum nunc aliquet bibendum. Congue eu consequat ac felis. Interdum varius sit amet mattis vulputate. Consequat mauris nunc congue nisi vitae suscipit tellus. Interdum consectetur libero id faucibus nisl tincidunt eget nullam non. Vitae sapien pellentesque habitant morbi tristique. Vitae turpis massa sed elementum tempus. Sed tempus urna et pharetra pharetra massa massa ultricies. Mauris cursus mattis molestie a iaculis. Nec feugiat in fermentum posuere urna nec tincidunt praesent. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum. Metus aliquam eleifend mi in nulla posuere. Sed id semper risus in hendrerit. Placerat vestibulum lectus mauris ultrices eros in. Pellentesque habitant morbi tristique senectus et netus. Nulla facilisi morbi tempus iaculis urna id. Facilisi cras fermentum odio eu feugiat pretium. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus.
+            </div>
+            <div class="modal-footer">
+                @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">I Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* For text fields */   
+
+    .form-control {
+        border-color: lightgray
+    }
+
+    /* For password fields */
+    .form-control[type="password"] {
+            border-color: lightgray
+    }
+
+    .link-button {
+        background: none;
+        border: none;
+        color: dodgerblue; /* Change to your desired link color */
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 0;
+        font: inherit;
+        outline: none;
+    }
+
+        /* Optionally, you can add hover effects */
+       /*  .link-button:hover {
+            text-decoration: none;
+        } */
+
+
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

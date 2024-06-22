@@ -1,0 +1,116 @@
+﻿@model SigninViewModel
+@{
+    ViewData["Title"] = "Signin";
+}
+
+<br/>
+
+<h1 class="display-4 text-center">Signin</h1>
+
+<br /><br />
+
+<div class="row justify-content-center mb-2">
+    <div class="col-md-4 ">
+        <form asp-controller="Home" asp-action="Signin" method="post">          
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email address</label>
+                <input asp-for="Email" class="form-control form-control-lg" 
+                       placeholder="name@example.com">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div>
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" class="form-control form-control-lg" 
+                       placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span> 
+            </div><br/>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" id="RememberMe" asp-for="RememberMe"
+                           type="checkbox" style="border-color:gray">
+                    <label class="form-check-label" for="RememberMe">Remember Me</label>
+                </div>
+                <a asp-action="ForgotPassword" 
+                    class="link-offset-2 link-underline link-underline-opacity-0">
+                 Forgot Password?</a>
+            </div>
+            <div>
+                <button type="submit" style="height:40px" 
+                class="btn btn-dark rounded-pill w-100">Signin</button>
+            </div>
+            <div class="text-center mt-3">
+                <p>Don't have an account? 
+                    <a class="link-offset-2 link-underline link-underline-opacity-0" 
+                       asp-action="Signup">Signup</a></p>
+            </div>
+        </form>
+        <div asp-validation-summary="ModelOnly" class="text-danger text-center">
+        </div>
+    </div>
+</div><br/>
+
+
+
+<p class="text-center">Or Sign in with </p>
+
+<form>
+    <div class="text-center">
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-light bg-transparent oauth-btn"
+                    data-toggle="tooltip" data-placement="top" title="Sign in with Apple">
+                <img src="~/logos/Apple.png" alt="Apple Logo">
+            </button>
+            <button type="button" class="btn btn-light mx-4 bg-transparent oauth-btn"
+                    data-toggle="tooltip" data-placement="top" title="Sign in with Google">
+                <img src="~/logos/Google.png" alt="Google Logo">
+            </button>
+            <button type="button" class="btn btn-light bg-transparent oauth-btn"
+                    data-toggle="tooltip" data-placement="top" title="Sign in with Microsoft">
+                <img src="~/logos/Microsoft.png" alt="Microsoft Logo">
+            </button>
+        </div>
+    </div>
+</form>
+
+<style>
+    .oauth-btn img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .oauth-btn {
+        border: none; 
+    }
+
+    .oauth-btn:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+        opacity:1
+    }
+
+    .text-danger ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .text-danger ul li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .validation-summary {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background-color: white;
+    }
+</style>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

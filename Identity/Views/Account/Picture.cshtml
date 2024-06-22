@@ -1,0 +1,65 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Picture";
+}
+<br /><br /><br /><br />
+@if (Model != null)
+{
+    <div style="display:flex;justify-content:center">
+        <img id="profilePic" src=@Model style="border-radius:50%;width:300px;height:300px" alt="profile picture" /><br />
+    </div>
+}
+else
+{
+    <div style="display:flex;justify-content:center">
+        <img id="profilePic" src="https://localhost/images/blank_profile_pic.png" style="border-radius:50%;width:300px;height:300px" alt="profile picture" /><br />
+    </div>
+}
+<br /><br />
+
+
+<div class="d-flex justify-content-center">
+    <form class="row" method="post" style="width:40%" asp-action="UpdatePicture" enctype="multipart/form-data">
+        <div class="input-group">
+            <input type="file" class="form-control" name="ProfilePicture" id="InputFile">
+            <button class="btn btn-outline-secondary" type="submit" id="InputFile">Update</button>
+            <a class="btn btn-dark" asp-action="Profile" type="button" id="InputFile">Cancel</a>
+        </div>
+    </form>
+</div>
+<br/><br/>
+
+@section Scripts
+{
+    <script>
+        // To load the image to the image control when user selects an image
+        $(document).ready(function () {
+            $('#InputFile').change(function () {
+                var file = this.files[0];
+                var imageType = /^image\//;
+
+                if (!file || !imageType.test(file.type)) {
+                    alert("Please select an image file.");
+                    if ($('#InputFile').val() === '') {
+                        $('#InputFile').val('');
+                        $('#profilePic').attr('src', 'https://localhost/images/blank_profile_pic.png');
+                    }
+                    else {
+                        $('#InputFile').val('');
+                        $('#profilePic').attr('src', 'https://localhost/images/blank_profile_pic.png');
+                    }
+                    return;
+                } else {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#profilePic').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
