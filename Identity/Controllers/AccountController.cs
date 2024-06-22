@@ -21,6 +21,7 @@ public class AccountController(ApplicationDBContext dbContext,
     [HttpGet]
     public async Task<IActionResult> Profile()
     {
+        //Update
         var email = User?.Identity?.Name;
         if(email != null)
         {
