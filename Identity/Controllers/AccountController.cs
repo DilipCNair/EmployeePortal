@@ -46,6 +46,7 @@ public class AccountController(ApplicationDBContext dbContext,
     [HttpPost]
     public async Task<IActionResult> UpdateBasicDetails(BasicDetailsViewModel model)
     {
+        //Updates
         if (ModelState.IsValid && User.Identity?.Name is not null)
         {
             var employee = await userManager.FindByNameAsync(User.Identity.Name);
