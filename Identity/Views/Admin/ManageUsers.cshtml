@@ -23,7 +23,7 @@
                 Gender
             </th>                    
             <th>Current Roles</th>
-            <th>Manage User Roles</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -83,7 +83,7 @@
 
                 </td>
                 <td>
-                    <a class="btn btn-secondary" asp-route-Email=@item.Email asp-action="AssignRoles">Assign/Unassign</a>
+                    <a class="btn btn-secondary" asp-route-Email=@item.Email asp-action="AssignRoles">Manage</a>
                 </td>
             </tr>
         }

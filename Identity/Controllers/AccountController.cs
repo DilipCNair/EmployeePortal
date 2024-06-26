@@ -11,11 +11,12 @@ public class AccountController(ApplicationDBContext dbContext,
     [HttpGet]
     public async Task<IActionResult> Home()
     {
-        var UserName = User.Identity?.Name;
-        Employee? user = new();
-        if (UserName is not null)
-            user = await userManager.FindByNameAsync(UserName);
-        return View(user);
+        var email = User.Identity?.Name;
+        var employee = await userManager.Users
+                            .Include(x => x.Address)
+                            .Include(x => x.ProfilePic)
+                            .SingleAsync(x => x.Email == email);
+        return View(employee);
     }
 
     [HttpGet]
