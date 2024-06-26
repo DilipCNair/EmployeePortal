@@ -24,21 +24,21 @@
                     @if (!signinManager.IsSignedIn(User))
                     {
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">                          
-                            <li class="nav-item">                               
-                                <a class="nav-link" asp-action="Index"
-                                   style="display: inline-flex; align-items: center;">
-                                    <i class="bi bi-house" style="font-size:20px;
-                                       vertical-align: middle; margin-right: 5px"></i>
+                            <li class="nav-item ms-2" style="margin-top:5px">                               
+                                <a class="nav-link d-flex align-items-center"
+                                   style="font-size:16px" asp-action="Index">
+                                    <img src="~/images/EmployeeInCoat.png"
+                                    style="width:20px;height:20px;margin-top:2px"/>
                                 </a>
                             </li>
-                            <li class="nav-item ms-3">
-                                <a class="nav-link" asp-action="Index"
+                            <li class="nav-item ms-4">
+                                <a class="nav-link" asp-action="About"
                                    style="font-size:16px;margin-top:5px">
                                     About
                                 </a>
                             </li>
                             <li class="nav-item ms-3">
-                                <a class="nav-link" asp-action="Index"
+                                <a class="nav-link" asp-action="Contact"
                                    style="font-size:16px;margin-top:5px">
                                     Contact
                                 </a>
@@ -57,30 +57,33 @@
                     }
                     else
                     {
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item ms-2">
-                                <a class="nav-link" asp-controller="Account" asp-action="Home" 
-                                   style="display: inline-flex; align-items: center;">
-                                    <i class="bi bi-house-fill" style="font-size:20px;
-                                       vertical-align: middle; margin-right: 5px"></i>
+                        <ul class="navbar-nav me-auto mb-lg-0">
+                            <li class="nav-item ms-2 " style="margin-top:5px">
+                                <a class="nav-link d-flex align-items-center"
+                                   style="font-size:16px" asp-controller="Account" asp-action="Home">
+                                    @* <i class="bi bi-house-fill"
+                                       style="font-size:20px; margin-right:7px;margin-bottom:1px"></i> *@
+                                    <img src="~/images/EmployeeInCoat.png"
+                                         style="width:20px;height:20px;margin-top:1px;margin-right:8px" />
+                                    <span>Dashboard</span>
                                 </a>
                             </li>
-                            <li class="nav-item ms-3">
-                                <a class="nav-link" asp-controller="Account" asp-action="Home"
+                            <li class="nav-item ms-5">
+                                <a class="nav-link" asp-controller="Account" asp-action="Details"
                                    style="font-size:16px;margin-top:5px">
-                                    Profile
+                                    Details
                                 </a>
                             </li>
                             <li class="nav-item ms-3">
-                                <a class="nav-link" asp-controller="Account" asp-action="Home"
+                                <a class="nav-link" asp-controller="Account" asp-action="Calender"
                                    style="font-size:16px;margin-top:5px">
                                     Calender
                                 </a>
                             </li>
                             <li class="nav-item ms-3">
-                                <a class="nav-link" asp-controller="Account" asp-action="Home"
+                                <a class="nav-link" asp-controller="Account" asp-action="Requests"
                                    style="font-size:16px;margin-top:5px">
-                                    Request
+                                    Requests
                                 </a>
                             </li>
                         </ul>
@@ -102,6 +105,15 @@
                                         </li>
                                         <li><a class="dropdown-item" asp-action="ManageRoles" asp-controller="Admin">
                                                 <i class="bi bi-person-fill-gear" style="margin-right:8px"></i>Manage Roles
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
+                                    else if (User.IsInRole("Manager"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-action="ManageUsers" asp-controller="Manager">
+                                                <i class="bi bi-people-fill" style="margin-right:8px"></i>Manage Users
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider"></li>

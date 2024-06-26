@@ -1,5 +1,6 @@
 ﻿namespace Identity.Controllers;
 
+[AllowAnonymous]
 public class HomeController(UserManager<Employee> userManager, 
                             SignInManager<Employee> signInManager,
                             IEmailService email) : Controller
@@ -11,6 +12,20 @@ public class HomeController(UserManager<Employee> userManager,
             return View();
         else
             return RedirectToAction("Home","Account");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> About()
+    {
+        var model = new ProfileViewModel();
+        return View("About", model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Contact()
+    {
+        var model = new ProfileViewModel();
+        return View("Contact", model);
     }
 
 

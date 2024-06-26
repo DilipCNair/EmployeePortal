@@ -1,5 +1,8 @@
-﻿namespace Identity.Controllers;
+﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
+namespace Identity.Controllers;
+
+[Authorize]
 public class AccountController(ApplicationDBContext dbContext, 
                                HttpContextAccessor httpContextAccessor, 
                                IWebHostEnvironment webHostEnvironment, 
@@ -43,7 +46,28 @@ public class AccountController(ApplicationDBContext dbContext,
         }
         return RedirectToAction("Error","Home");    
         
-    }  
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details()
+    {
+        var model = new ProfileViewModel();
+        return View("Details",model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Calender()
+    {
+        var model = new ProfileViewModel();
+        return View("Calender", model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Requests()
+    {
+        var model = new ProfileViewModel();
+        return View("Requests", model);
+    }
 
     [HttpPost]
     public async Task<IActionResult> UpdateBasicDetails(BasicDetailsViewModel model)
