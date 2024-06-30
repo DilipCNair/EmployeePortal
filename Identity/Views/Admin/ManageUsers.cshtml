@@ -54,7 +54,6 @@
                             @Html.DisplayFor(modelItem => item.FullName)
                         }
 
-
                 </td>
                 <td>
                         @if (item.gender is Gender.Select)
@@ -83,7 +82,9 @@
 
                 </td>
                 <td>
-                    <a class="btn btn-secondary" asp-route-Email=@item.Email asp-action="AssignRoles">Manage</a>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0" 
+                           asp-route-Email=@item.Email
+                           asp-action="AssignRoles">Manage</a>
                 </td>
             </tr>
         }

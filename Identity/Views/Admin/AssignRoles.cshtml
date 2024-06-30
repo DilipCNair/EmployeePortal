@@ -62,14 +62,17 @@
     <input type="hidden" name="userName" value=@Model.Email />
     <input type="hidden" id="SelectedRole" name="SelectedRole"  />
 
-    <button type="submit" formaction="AddUserToRole" class="btn btn-outline-success" style="width:90px">
-        @* <i class="fi fi-rr-plus"></i> *@Add
-    </button>
-    <button type="submit" formaction="RemoveUserFromRole" style="width:90px" class="btn btn-dark">
-        @* <i class="fi fi-sr-minus"> </i>*@ Remove
-    </button>
-    <a class="link-offset-2 link-underline link-underline-opacity-0" style="margin-left:30px" 
-       asp-action="ManageUsers">Done</a>
+    <div class="mt-2">
+        <button type="submit" formaction="AddUserToRole" class="btn btn-outline-success" 
+        style="width:83px">
+            @* <i class="fi fi-rr-plus"></i> *@Add
+        </button>
+        <button type="submit" formaction="RemoveUserFromRole" style="width:83px" class="btn btn-dark">
+            @* <i class="fi fi-sr-minus"> </i>*@ Remove
+        </button>
+        <a class="link-offset-2 link-underline link-underline-opacity-0" style="margin-left:15px" 
+           asp-action="ManageUsers">Done</a>
+    </div>
 </form>
 
 <br/>

@@ -102,6 +102,17 @@ body {
     border-color: lightgray;
 }*/
 
+.btn-custom {
+    background-color: #12b2ad; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+}
+
+    .btn-custom:hover {
+        background-color: #17bab5; /* Darker green on hover */
+        color: white;
+    }
+
 
 
 

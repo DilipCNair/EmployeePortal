@@ -31,8 +31,10 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <a class="btn btn-secondary" asp-action="UpdateRole" asp-route-role="@item.Name">Edit</a>
-                        <a class="btn btn-secondary" asp-action="DeleteRole" asp-route-role=@item.Name>Delete</a>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0" asp-action="UpdateRole"
+                           asp-route-role="@item.Name">Edit</a>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0 ms-3" 
+                           asp-action="DeleteRole" asp-route-role=@item.Name>Delete</a>
                     </td>
                 </tr>
             }
@@ -44,4 +46,15 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" asp-action="CreateRole">Create</a>
+<br/>
+
+<div style="display: flex; justify-content: start; width: 100%;">
+    <a class="btn btn-dark d-flex align-items-center rounded-pill" style="width: 150px;" asp-action="CreateRole">
+        <i class="fi fi-rr-plus ms-1" style="margin-right: 7px; margin-top: 3px;"></i>
+        <span style="margin-left:5px">Create Role</span>
+    </a>
+</div>
+
+
+
+

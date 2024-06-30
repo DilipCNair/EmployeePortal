@@ -36,6 +36,7 @@ public class Employee : IdentityUser
     public Address? Address { get; set; }
 
     public ProfilePicture? ProfilePic { get; set; }
+    
 
     
 }

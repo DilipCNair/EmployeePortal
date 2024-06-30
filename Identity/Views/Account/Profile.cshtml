@@ -10,7 +10,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <img src="~/images/Employee.png" style="height:20px;width:20px" class="rounded me-2" alt="...">
+                <img src="~/images/EmployeeInCoat.png" style="height:20px;width:20px" class="rounded me-2" alt="...">
                 <strong class="me-auto">Account Notification</strong>
                 <small>now</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -77,7 +77,7 @@ else
     <div class="row mb-3">
         <label for="Email" class="col-sm-2 col-form-label">Profile Picture : </label>
         <div class="col-sm-4 d-flex align-items-center">
-            <img src="https://localhost/images/blank_profile_pic.png"
+            <img src="https://localhost/images/EmployeeInCoat.png"
                  style="border-radius:50%;width:125px;height:125px" alt="profile picture" /><br />
             <div class="ms-3">
                 <a id="ChangePicture" asp-action="Picture" style="width:Auto;margin-left:20px" class="btn btn-outline-secondary">Change</a>
@@ -115,20 +115,20 @@ else
         <select disabled asp-for="EmployeeGender" class="form-select" asp-items="Html.GetEnumSelectList<Gender>()">        
         </select>
     </div>    
-    <div class="col-md-4">
+    @* <div class="col-md-4">
         <label for="Salary" class="form-label">Annual Salary in USD</label>
         <input type="text" disabled id="Salary" name="Salary" asp-for="Salary" class="form-control" />
-    </div>
+    </div> *@
     <div class="col-md-4">
         <label for="Birthdate" class="form-label">Date of Birth</label>
         <input type="date" asp-for="DateOfBirth" disabled id="DateOfBirth" name="DateOfBirth" class="form-control" />
     </div>
-    <div class="col-md-4">
+    @* <div class="col-md-4">
         <label for="EmployeeDepartMent" class="form-label">Department</label>
             <select disabled asp-for="EmployeeDepartMent" class="form-select"
                     asp-items="Html.GetEnumSelectList<Department>()">
             </select>
-    </div> 
+    </div>  *@
     @* <div class="col-md-1">
         <label for="CountryCode" class="form-label">Country</label>
         <input type="text" disabled asp-for="CountryCode" class="form-control" id="CountryCode" placeholder="eg: +91">

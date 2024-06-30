@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Home";
-    ViewData["src"] = "https://localhost/images/blank_profile_pic.png";
+    ViewData["src"] = "https://localhost/images/EmployeeInCoat.png";
 }
 
 <br/>
@@ -16,37 +16,25 @@
     </div>
     <div class="col-md-7 ms-5">
         <p style="font-weight:600;font-size:18px;margin-bottom: 0;">Summary</p>
-        @if(Model?.Summary != null)
-        {
-            <p style="color:dimgrey">Kindly add your summary by going to the profile section.</p>
-        }
-        else
-        {
-            <p class="mt-1 mb-1" style="color:dimgray">
-                My main expertise is in Developing softwares using C#. I have more than 2 Years of 
-                experience in .NET development, developed a Web Application in ASP.NET MVC (HRMS) and
-                a Cyber security based desktop application in WPF (Host-based IDS). Being a Post 
-                Graduate in Cyber Security I also have 2 years of experience learning and researching
-                in the field of Cyber security independently (mainly in Reverse Engineering Binaries).
-                I am also proficient in Linux, Computer Networks and Cryptography Concepts. So having
-                sufficient expertise in software development (mainly in .NET) and cyber security
-                I can make a major contribution to these fields, and my experience in cyber security 
-                makes me a better software engineer.
+        <p class="mt-1 mb-1" style="color:dimgray">
+            @(Model?.Summary is null
+                ? "Kindly add your summary by going to the details page."
+                : Model.Summary
+             )
+        </p>
 
-            </p>
-        }
         
     </div>
 
     <div class="col-md-2 ms-5 mt-1">
         <p style="font-weight:700;font-size:18px;margin-bottom: 0">Designation</p>
-        <p style="color:dimgray">@(Model?.EmpDesignation != null ? Model.EmpDesignation : "Software Engineer")</p>
+        <p style="color:dimgray">@(Model?.EmpDesignation != null ? Model.EmpDesignation : "---")</p>
 
         <p style="font-weight:700;font-size:18px;margin-bottom: 0;">Annual Salary</p>
         <p style="color:dimgray">@(Model?.Salary != null ? $"${Model.Salary}" : "---")</p>
 
         <p style="font-weight:700;font-size:18px;margin-bottom: 0;">Location</p>
-        <p style="color:dimgray">@(Model?.OfficeLocation != null ? Model.OfficeLocation : "Bengaluru")</p>
+        <p style="color:dimgray">@(Model?.OfficeLocation != null ? Model.OfficeLocation : "---")</p>
     </div>
 
 </div>

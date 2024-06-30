@@ -23,7 +23,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @if (!signinManager.IsSignedIn(User))
                     {
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">                          
+                        <ul class="navbar-nav me-auto mb-lg-0">                          
                             <li class="nav-item ms-2" style="margin-top:5px">                               
                                 <a class="nav-link d-flex align-items-center"
                                    style="font-size:16px" asp-action="Index">
@@ -92,8 +92,9 @@
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" 
                                    style="font-size:16px" role="button"
                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle" style="font-size:20px; margin-right:7px"></i>
-                                    <span>@(User.IsInRole("Admin") ? "ADMIN" : User.Identity?.Name)</span>
+                                    <i class="bi bi-person-circle" style="font-size:20px; 
+                                        margin-right:7px"></i>
+                                    <span style="margin-right:2px">@(User.IsInRole("Admin") ? "Admin" : User.Identity?.Name)</span>
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -104,7 +105,8 @@
                                             </a>
                                         </li>
                                         <li><a class="dropdown-item" asp-action="ManageRoles" asp-controller="Admin">
-                                                <i class="bi bi-person-fill-gear" style="margin-right:8px"></i>Manage Roles
+                                                <i class="bi bi-person-fill-gear" style="margin-right:8px"></i>
+                                                Manage Roles
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider"></li>
@@ -112,7 +114,7 @@
                                     else if (User.IsInRole("Manager"))
                                     {
                                         <li>
-                                            <a class="dropdown-item" asp-action="ManageUsers" asp-controller="Manager">
+                                            <a class="dropdown-item" href="/Manager/Users">
                                                 <i class="bi bi-people-fill" style="margin-right:8px"></i>Manage Users
                                             </a>
                                         </li>

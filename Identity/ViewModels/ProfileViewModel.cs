@@ -25,6 +25,8 @@ public class ProfileViewModel
 
     public string? ProfilePic { get; set; }
 
+    public string? Summary { get; set; }
+
     public AddressViewModel? EmployeeAddress { get; set; }
 
 }

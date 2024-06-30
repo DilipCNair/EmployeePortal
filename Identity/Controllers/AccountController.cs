@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-
-namespace Identity.Controllers;
+﻿namespace Identity.Controllers;
 
 [Authorize]
 public class AccountController(ApplicationDBContext dbContext, 
@@ -51,19 +49,50 @@ public class AccountController(ApplicationDBContext dbContext,
     [HttpGet]
     public async Task<IActionResult> Details()
     {
-        var model = new ProfileViewModel();
+        var email = User?.Identity?.Name;
+        if (email is null)
+            return BadRequest("You are not logged in");
+
+        var emp = await userManager.FindByEmailAsync(email);
+        if (emp is null)
+            return BadRequest("Some internal server error");
+
+        var model = mapper.Map<ProfileViewModel>(emp);        
         return View("Details",model);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Summary(ProfileViewModel model)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var email = User?.Identity?.Name;
+        if (email is null)
+            return BadRequest("You are not logged in");
+
+        var emp = await userManager.FindByEmailAsync(email);
+        if (emp is null)
+            return BadRequest("Some internal server error");
+
+        emp.Summary = model.Summary;
+        var result = await userManager.UpdateAsync(emp);
+        if (result.Succeeded)
+            return RedirectToAction("Details");
+        else
+            return BadRequest("Some internal server error");
+
+    }
+
     [HttpGet]
-    public async Task<IActionResult> Calender()
+    public IActionResult Calender()
     {
         var model = new ProfileViewModel();
         return View("Calender", model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Requests()
+    public IActionResult Requests()
     {
         var model = new ProfileViewModel();
         return View("Requests", model);
@@ -77,7 +106,7 @@ public class AccountController(ApplicationDBContext dbContext,
         {
             var employee = await userManager.FindByNameAsync(User.Identity.Name);
             if (employee != null)
-            {                
+            {
                 mapper.Map(model, employee);
                 var result = await userManager.UpdateAsync(employee);
                 if (result.Succeeded)
