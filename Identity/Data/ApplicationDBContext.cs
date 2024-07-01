@@ -6,6 +6,8 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> Options
 
     public DbSet<Address> Addresses { get; set; }
 
+    public DbSet<Experience> WorkHistory { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

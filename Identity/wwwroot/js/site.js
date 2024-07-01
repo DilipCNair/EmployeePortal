@@ -48,7 +48,7 @@
 //    }
 //});
 
-// To enable update button when user clicks on edit button for address and 
+// To enable update button when user clicks on edit button for address and
 // basic details form
 //$(document).ready(function () {
 //    // For BasicDetails form
@@ -111,6 +111,18 @@
 //        }
 //    });
 //});
+
+function changeColor(link) {
+    // Toggle between black and another color, for example red
+    //if (link.style.color === 'black') {
+    //    link.style.color = 'red';
+    //} else {
+    //    link.style.color = 'black';
+    //}
+    link.style.color = 
+}
+
+
 
 
 

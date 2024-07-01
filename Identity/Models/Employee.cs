@@ -17,8 +17,6 @@ public class Employee : IdentityUser
     [Column(TypeName = "decimal(18, 4)")]
     public Decimal? Salary { get; set; }   
 
-    public string? WorkExperience { get; set; }
-
     public string? OfficeLocation { get; set; }
 
     public string? Summary { get; set; }
@@ -37,6 +35,6 @@ public class Employee : IdentityUser
 
     public ProfilePicture? ProfilePic { get; set; }
     
-
+    public List<Experience>? WorkExperience { get; set;}
     
 }

@@ -43,7 +43,29 @@ public class HomeController(UserManager<Employee> userManager,
             var result = await signInManager.PasswordSignInAsync(model.Email,model.Password,
                                                                  model.RememberMe,false);
             if (result.Succeeded)
-                return RedirectToAction("Home","Account");
+            {
+                var employee = await userManager.Users
+                                .Include(x => x.ProfilePic)
+                                .SingleAsync(x => x.Email == model.Email);
+                if (employee != null)
+                {
+                    var oldClaims = await userManager.GetClaimsAsync(employee);
+                    var firstName = oldClaims.FirstOrDefault(c => c.Type == "FirstName");
+                    var profilePicturePath = oldClaims.FirstOrDefault(c => c.Type == "ProfilePicturePath");
+                    if (firstName != null)
+                        await userManager.RemoveClaimAsync(employee, firstName);
+                    if (profilePicturePath != null)
+                        await userManager.RemoveClaimAsync(employee, profilePicturePath);
+
+                    var claims = new List<Claim>
+                    {
+                        new("ProfilePicturePath", employee?.ProfilePic?.FileURI ?? ""),
+                        new("FirstName", employee?.FirstName ?? string.Empty)
+                    };
+                    await userManager.AddClaimsAsync(employee, claims);
+                    return RedirectToAction("Home", "Account");
+                }               
+            }
 
             ModelState.AddModelError(string.Empty, "Invalid Credentials");
         }

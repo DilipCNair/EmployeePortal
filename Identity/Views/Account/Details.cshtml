@@ -16,10 +16,10 @@
     <div class="container mt-5">
         <div class="row mb-2">
             <label for="Summary" class="col-sm-2 col-form-label">Summary  :</label>
-            <div class="col-sm-5">
+            <div class="col-sm-8">
                 <div style="position: relative;">
-                    <textarea style="height:150px;resize:none;color:grey" class="form-control" id="Summary" 
-                               maxlength="725" asp-for="Summary" disabled>@Model.Summary
+                    <textarea style="height:185px;resize:none;color:grey" class="form-control" id="Summary" 
+                               maxlength="750" asp-for="Summary" disabled>@Model.Summary
                     </textarea>
                 </div>
             </div>
@@ -27,7 +27,7 @@
         <div class="row mb-4">
             <div class="col-sm-4 offset-sm-2">
                 <button type="button" class="btn btn-link" style="text-decoration:none;margin-left:-12px" id="editButton" >Edit</button>
-                <button type="submit" class="btn btn-link" style="text-decoration:none" id="updateButton">Update</button>
+                <button type="submit" class="btn btn-link" style="text-decoration:none;display:none" id="updateButton">Update</button>
             </div>
         </div>
     </div>
@@ -43,6 +43,9 @@
 
                 // Toggle the textarea's disabled attribute
                 $('#Summary').prop('disabled', !isEdit);
+
+                // Toggle the visibility of the update button
+                $('#updateButton').toggle(isEdit);
 
                 // Change button text to Cancel if currently Edit, otherwise change it to Edit
                 $(this).text(isEdit ? 'Cancel' : 'Edit');
