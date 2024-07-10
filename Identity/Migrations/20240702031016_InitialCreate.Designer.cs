@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240516052901_Landmark")]
-    partial class Landmark
+    [Migration("20240702031016_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,11 +85,17 @@ namespace Identity.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("EmpDesignation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("EmployeeDepartment")
                         .HasColumnType("int");
 
                     b.Property<int?>("EmployeeGender")
                         .HasColumnType("int");
+
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -120,6 +126,9 @@ namespace Identity.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("OfficeLocation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -129,13 +138,16 @@ namespace Identity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProfilePicId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProfilePicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Salary")
                         .HasColumnType("decimal(18, 4)");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -162,13 +174,42 @@ namespace Identity.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Identity.Models.Experience", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("PresentlyWorking")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("WorkHistory");
+                });
+
             modelBuilder.Entity("Identity.Models.ProfilePicture", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FileDescription")
                         .HasColumnType("nvarchar(max)");
@@ -341,6 +382,13 @@ namespace Identity.Migrations
                     b.Navigation("ProfilePic");
                 });
 
+            modelBuilder.Entity("Identity.Models.Experience", b =>
+                {
+                    b.HasOne("Identity.Models.Employee", null)
+                        .WithMany("WorkExperience")
+                        .HasForeignKey("EmployeeId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -390,6 +438,11 @@ namespace Identity.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Identity.Models.Employee", b =>
+                {
+                    b.Navigation("WorkExperience");
                 });
 #pragma warning restore 612, 618
         }

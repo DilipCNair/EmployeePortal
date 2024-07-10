@@ -135,8 +135,8 @@ namespace Identity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProfilePicId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProfilePicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Salary")
                         .HasColumnType("decimal(18, 4)");
@@ -204,11 +204,9 @@ namespace Identity.Migrations
 
             modelBuilder.Entity("Identity.Models.ProfilePicture", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FileDescription")
                         .HasColumnType("nvarchar(max)");

@@ -9,5 +9,6 @@ public class MappingProfiles : Profile
         CreateMap<AddressViewModel, Address>().ReverseMap();
         CreateMap<ManagerViewModel, Employee>().ReverseMap();
         CreateMap<BasicDetailsViewModelForManager, Employee>().ReverseMap();
+        CreateMap<ExperienceViewModel, Experience>().ReverseMap();
     }
 }

@@ -2,7 +2,7 @@
 
 public class ProfilePicture
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string? FileURI { get; set; }
 

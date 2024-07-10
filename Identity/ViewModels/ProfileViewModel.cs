@@ -29,4 +29,6 @@ public class ProfileViewModel
 
     public AddressViewModel? EmployeeAddress { get; set; }
 
+    public ExperienceViewModel? Experience { get; set; }
+
 }

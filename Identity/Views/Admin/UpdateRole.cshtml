@@ -11,17 +11,17 @@
 </div>
 <br />
 
-<form asp-action="UpdateRole" method="post">
+<form asp-action="UpdateRole" method="post" style="width:100%">
     <!-- Second Input Field (Deactivated/Disabled) -->
     <div class="form-group">
         <label for="CurrentRole">Current role name</label>
-        <input type="text" class="form-control" id="CurrentRole" placeholder=@Model disabled>
+        <input type="text" class="form-control mt-1" id="CurrentRole" placeholder=@Model disabled>
     </div>
     <br/>
     <!-- First Input Field -->
     <div class="form-group">
         <label for="NewRole">New role name</label>
-        <input type="text" class="form-control" name="newRoleName" id="NewRole" placeholder="Role Name">
+        <input type="text" class="form-control mt-1" name="newRoleName" id="NewRole" placeholder="Role Name">
     </div>
 
     <input type="hidden" name="currentRoleName" value=@Model />
@@ -29,6 +29,6 @@
     
     <br/>
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a class="btn btn-primary" style="margin-left:5px" asp-action="ManageRoles">Cancel</a>
+    <button type="submit" class="btn btn-dark">Update</button>
+    <a class="btn btn-outline-dark" style="margin-left:5px" asp-action="ManageRoles">Cancel</a>
 </form>

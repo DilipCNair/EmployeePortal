@@ -35,6 +35,5 @@ public class Employee : IdentityUser
 
     public ProfilePicture? ProfilePic { get; set; }
     
-    public List<Experience>? WorkExperience { get; set;}
-    
+    public List<Experience>? WorkExperience { get; set; }   
 }

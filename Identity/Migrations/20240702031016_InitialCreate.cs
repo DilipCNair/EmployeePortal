@@ -21,7 +21,8 @@ namespace Identity.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PinCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PinCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,8 +47,7 @@ namespace Identity.Migrations
                 name: "ProfilePics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FileURI = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FileExtension = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -86,18 +86,22 @@ namespace Identity.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
-                    GovermentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeDepartment = table.Column<int>(type: "int", nullable: false),
-                    EmployeeGender = table.Column<int>(type: "int", nullable: false),
+                    EmployeeDepartment = table.Column<int>(type: "int", nullable: true),
+                    EmpDesignation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salary = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    OfficeLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GovermentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeGender = table.Column<int>(type: "int", nullable: true),
                     CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProfilePicId = table.Column<int>(type: "int", nullable: true),
+                    ProfilePicId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -213,6 +217,28 @@ namespace Identity.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WorkHistory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PresentlyWorking = table.Column<bool>(type: "bit", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkHistory_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -261,6 +287,11 @@ namespace Identity.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkHistory_EmployeeId",
+                table: "WorkHistory",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
@@ -280,6 +311,9 @@ namespace Identity.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "WorkHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

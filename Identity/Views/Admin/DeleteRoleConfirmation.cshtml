@@ -17,7 +17,7 @@
 <div class="column d-flex justify-content-center align-items-center">
     <form asp-action="DeleteRole" method="post">
         <input type="hidden" name="roleName" value=@Model />
-        <button class="btn btn-secondary" type="submit">Yes</button>
+        <button class="btn btn-secondary" style="width:90px" type="submit">Yes</button>
     </form>
-    <a class="btn btn-secondary" style="margin-left:20px" asp-action="ManageRoles" role="button">No</a>
+    <a class="btn btn-secondary" style="margin-left:20px;width:90px" asp-action="ManageRoles" role="button">No</a>
 </div>

@@ -11,5 +11,10 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> Options
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        //modelBuilder.Entity<Employee>()
+        //            .HasMany(e => e.WorkExperience)
+        //            .WithOne()
+        //            .HasForeignKey(e => e.Id);
     }
 }

@@ -16,10 +16,10 @@
     <div class="container mt-5">
         <div class="row mb-2">
             <label for="Summary" class="col-sm-2 col-form-label">Summary  :</label>
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 <div style="position: relative;">
-                    <textarea style="height:185px;resize:none;color:grey" class="form-control" id="Summary" 
-                               maxlength="750" asp-for="Summary" disabled>@Model.Summary
+                    <textarea style="height:180px;resize:none;color:grey" class="form-control" 
+                        id="Summary" maxlength="750" asp-for="Summary" disabled>@Model.Summary
                     </textarea>
                 </div>
             </div>
@@ -34,6 +34,54 @@
 </form>
 <hr/>
 
+<h3 class="display-6" style="font-size:30px;font-weight:300">Add Experience</h3>
+
+<br/><br/>
+<form asp-action="Experience" method="post" class="form-horizontal">
+    <div class="form-group row">
+        <label asp-for="Experience.Title" class="col-sm-2 col-form-label">Title :</label>
+        <div class="col-sm-4 mb-4">
+            <input asp-for="Experience.Title" class="form-control" />
+            <span asp-validation-for="Experience.Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Experience.StartDate" class="col-sm-2 col-form-label">Start Date :</label>
+        <div class="col-sm-2 mb-4">
+            <input type="date" asp-for="Experience.StartDate" class="form-control" />
+            <span asp-validation-for="Experience.StartDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Experience.EndDate" class="col-sm-2 col-form-label">End Date :</label>
+        <div class="col-sm-2 mb-4">
+            <input type="date" asp-for="Experience.EndDate" id="EndDate" class="form-control" />
+            <span asp-validation-for="Experience.EndDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Experience.PresentlyWorking" class="col-sm-2 col-form-label">Presently Working :</label>
+        <div class="col-sm-4 mb-4 mt-2">
+            <input asp-for="Experience.PresentlyWorking" id="PresentlyWorking" class="form-check-input" type="checkbox" />
+            <span asp-validation-for="Experience.PresentlyWorking" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Experience.Description" class="col-sm-2 col-form-label">Description :</label>
+        <div class="col-sm-4 mb-4">
+            <textarea asp-for="Experience.Description" style="height:200px;resize:none" class="form-control"></textarea>
+            <span asp-validation-for="Experience.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-4 mb-4 offset-sm-2">
+            <button type="submit" class="btn btn-dark rounded-pill" style="width:100px">Add</button>
+        </div>
+    </div>
+</form>
+
+<br/>
+<hr/>
 @section Scripts
 {
     <script>
@@ -54,6 +102,24 @@
                 if (!isEdit) {
                     location.reload();
                 }
+            });
+        });
+
+        $(document).ready(function () {
+            function toggleEndDate() {
+                if ($('#PresentlyWorking').is(':checked')) {
+                    $('#EndDate').prop('disabled', true).val('');
+                } else {
+                    $('#EndDate').prop('disabled', false);
+                }
+            }
+
+            // Initialize the state on page load
+            toggleEndDate();
+
+            // Add change event listener to the checkbox
+            $('#PresentlyWorking').change(function () {
+                toggleEndDate();
             });
         });
     </script>

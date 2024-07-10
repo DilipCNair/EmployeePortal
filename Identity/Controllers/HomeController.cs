@@ -15,14 +15,14 @@ public class HomeController(UserManager<Employee> userManager,
     }
 
     [HttpGet]
-    public async Task<IActionResult> About()
+    public IActionResult About()
     {
         var model = new ProfileViewModel();
         return View("About", model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Contact()
+    public IActionResult Contact()
     {
         var model = new ProfileViewModel();
         return View("Contact", model);

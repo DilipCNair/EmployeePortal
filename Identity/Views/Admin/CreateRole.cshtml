@@ -4,19 +4,50 @@
     ViewData["Title"] = "Create Roles";
 }
 
-<div class="col-12 d-flex justify-content-center align-items-center">
+@* <div class="col-12 d-flex justify-content-center align-items-center">
     <header>
         <h2 class="display-6">Create a New Role</h2>
     </header>
-</div>
-<br />
+</div> *@
+@* <br /> *@
 
-<form method="post" asp-action="CreateRole">
+<div class="d-flex justify-content-center w-100" style="margin-top:15px">
+    <div class="col-md-4">
+        <div class="text-lg-center" style="margin-top:80px">
+            <h2 style="font-weight:600;font-size:38px">Create Role</h2>
+        </div>
+        <div class="text-lg-center mt-5 mb-4">
+            <p style="color:dimgray">Create roles here for proper authorization and role based access</p>
+        </div>
+        <form asp-action="CreateRole" method="post">
+            <div style="margin-bottom:30px">
+                <input style="height:50px;margin-bottom:10px" class="form-control"
+                       name="roleName" id="roleName" placeholder="Enter the name of the role">
+                <span class="text-danger"></span>
+            </div>
+            <div>
+                <button type="submit" style="height:40px"
+                        class="btn btn-dark rounded-pill w-100">
+                    Create Role
+                </button>
+            </div>
+            <div class="text-center mt-3">
+                <a class="link-offset-2 link-underline link-underline-opacity-0"
+                   asp-controller="Admin" asp-action="ManageRoles">
+                    <i class="fi fi-sr-arrow-left"
+                       style="vertical-align:middle;margin-right:3px"></i> Back to Roles
+                </a>
+            </div>
+        </form>
+        <div asp-validation-summary="ModelOnly" class="text-danger mt-3"></div>
+    </div>
+</div>
+
+@* <form method="post" asp-action="CreateRole">
     <div class="mb-3">
         <label for="roleName" class="form-label">Enter a new role</label>
         <input type="text" class="form-control" name="roleName" id="roleName" placeholder="Role Name">
      </div>
     <button type="submit" class="btn btn-primary">Create</button>
     <a class="btn btn-primary" style="margin-left:10px" asp-action="ManageRoles">Cancel</a>
-</form>
-
+</form> *@

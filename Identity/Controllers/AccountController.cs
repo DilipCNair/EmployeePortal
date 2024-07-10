@@ -16,7 +16,12 @@ public class AccountController(ApplicationDBContext dbContext,
         var employee = await userManager.Users
                             .Include(x => x.Address)
                             .Include(x => x.ProfilePic)
+                            .Include(x => x.WorkExperience)
                             .SingleAsync(x => x.Email == email);
+        employee.WorkExperience = employee?.WorkExperience?
+                                  .OrderByDescending(exp => exp.PresentlyWorking)
+                                  .ThenByDescending(exp => exp.EndDate)
+                                  .ToList();
         return View(employee);
     }
 
@@ -82,6 +87,69 @@ public class AccountController(ApplicationDBContext dbContext,
         else
             return BadRequest("Some internal server error");
 
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Experience(ProfileViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var email = User?.Identity?.Name;
+        if (email is null)
+            return BadRequest("User not found");
+
+        var employee = await userManager.Users
+                            .Include(x => x.WorkExperience)
+                            .SingleAsync(x => x.Email == email);
+        if (employee == null)
+            return BadRequest("Server error");
+
+        var experience = mapper.Map<Experience>(model.Experience);
+
+        employee.WorkExperience ??= [];
+        employee.WorkExperience.Add(experience);       
+        
+        var result = await userManager.UpdateAsync(employee);
+        if (result.Succeeded)
+            return RedirectToAction("Details");
+        else
+        {
+            TempData["Error"] = "Cannot Update the user";
+            return RedirectToAction("Details");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveExperience(Guid? Id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+       
+
+        var email = User?.Identity?.Name;
+        if (email is null)
+            return BadRequest("User not found");
+
+        var employee = await userManager.Users
+                            .Include(x => x.WorkExperience)
+                            .SingleAsync(x => x.Email == email);
+        if (employee == null)
+            return BadRequest("Server error");
+
+        var experience = employee?.WorkExperience?.FirstOrDefault(exp => exp.Id == Id);
+        if (experience != null)
+            employee?.WorkExperience?.Remove(experience);
+
+        var result = await userManager.UpdateAsync(employee);
+
+        if (result.Succeeded)
+            return RedirectToAction("Home");
+        else
+        {
+            TempData["Error"] = "Cannot Update the user";
+            return RedirectToAction("Home");
+        }
     }
 
     [HttpGet]
