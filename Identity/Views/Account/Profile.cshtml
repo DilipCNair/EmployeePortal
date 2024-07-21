@@ -123,12 +123,12 @@ else
         <label for="Birthdate" class="form-label">Date of Birth</label>
         <input type="date" asp-for="DateOfBirth" disabled id="DateOfBirth" name="DateOfBirth" class="form-control" />
     </div>
-    @* <div class="col-md-4">
+    <div class="col-md-4">
         <label for="EmployeeDepartMent" class="form-label">Department</label>
-            <select disabled asp-for="EmployeeDepartMent" class="form-select"
+            <select disabled id="Department" asp-for="EmployeeDepartMent" class="form-select"
                     asp-items="Html.GetEnumSelectList<Department>()">
             </select>
-    </div>  *@
+    </div> 
     @* <div class="col-md-1">
         <label for="CountryCode" class="form-label">Country</label>
         <input type="text" disabled asp-for="CountryCode" class="form-control" id="CountryCode" placeholder="eg: +91">
@@ -233,7 +233,7 @@ else
             // For BasicDetails form
             $('#EditDetails').click(function () {
                 if ($(this).text() === "Edit") {
-                    $('#BasicDetails input[type=text], #BasicDetails input[type=email], #BasicDetails select, #BasicDetails input[type=date]').prop('disabled', false);
+                    $('#BasicDetails input[type=text], #BasicDetails select:not(#Department), #BasicDetails input[type=email], #BasicDetails input[type=date]').prop('disabled', false);
                     $('#UpdateDetails').prop('disabled', false);
                     $(this).text("Cancel");
                 } else {

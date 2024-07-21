@@ -31,10 +31,10 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <a class="link-offset-2 link-underline link-underline-opacity-0" asp-action="UpdateRole"
-                           asp-route-role="@item.Name">Edit</a>
-                        <a class="link-offset-2 link-underline link-underline-opacity-0 ms-3" 
-                           asp-action="DeleteRole" asp-route-role=@item.Name>Delete</a>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0" data-toggle="tooltip" title="Rename Role" asp-action="UpdateRole"
+                           asp-route-role="@item.Name"><i class="fi fi-rr-pencil" style="font-size:20px"></i></a>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0 ms-3" data-toggle="tooltip" title="Delete Role"
+                           asp-action="DeleteRole" asp-route-role=@item.Name><i class="fi fi-rr-trash" style="font-size:20px"></i></a>
                     </td>
                 </tr>
             }
@@ -55,6 +55,15 @@
     </a>
 </div>
 
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+     
+}
 
 
 

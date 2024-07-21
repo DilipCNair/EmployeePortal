@@ -5,13 +5,10 @@ using MailKit;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddServerSideBlazor();
 
-//builder.Services.AddScoped<IEmployeeRepository, MSSQLEmployeeRepository>();
 builder.Services.AddDbContext<ApplicationDBContext>
-                (options => options.UseSqlServer(config.GetConnectionString("MSSQLConnectionString")));
+                (options => options.UseSqlServer(config.GetConnectionString("AzureSQL")));
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
                 .AddDefaultTokenProviders()

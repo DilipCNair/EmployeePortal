@@ -95,6 +95,9 @@ public class AccountController(ApplicationDBContext dbContext,
         if (!ModelState.IsValid)
             return BadRequest();
 
+        if (model.Experience is null)
+            return BadRequest();
+
         var email = User?.Identity?.Name;
         if (email is null)
             return BadRequest("User not found");
@@ -175,6 +178,7 @@ public class AccountController(ApplicationDBContext dbContext,
             var employee = await userManager.FindByNameAsync(User.Identity.Name);
             if (employee != null)
             {
+                model.EmployeeDepartMent = employee.EmployeeDepartment;
                 mapper.Map(model, employee);
                 var result = await userManager.UpdateAsync(employee);
                 if (result.Succeeded)

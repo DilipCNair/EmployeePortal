@@ -12,7 +12,7 @@
 </div>
 <hr />
 
-<form asp-action="Summary" method="post">
+<form id="SummaryForm" asp-action="Summary" method="post">
     <div class="container mt-5">
         <div class="row mb-2">
             <label for="Summary" class="col-sm-2 col-form-label">Summary  :</label>
@@ -37,7 +37,7 @@
 <h3 class="display-6" style="font-size:30px;font-weight:300">Add Experience</h3>
 
 <br/><br/>
-<form asp-action="Experience" method="post" class="form-horizontal">
+<form asp-action="Experience" method="post" class="form-horizontal" id="ExperienceForm">
     <div class="form-group row">
         <label asp-for="Experience.Title" class="col-sm-2 col-form-label">Title :</label>
         <div class="col-sm-4 mb-4">
@@ -79,9 +79,9 @@
         </div>
     </div>
 </form>
+<br/><hr/>
 
-<br/>
-<hr/>
+
 @section Scripts
 {
     <script>
@@ -122,5 +122,55 @@
                 toggleEndDate();
             });
         });
+
+        // $(document).ready(function () {
+        //     $('#experienceForm').submit(function (event) {
+        //         // Prevent form submission
+        //         event.preventDefault();
+
+        //         // Validate required fields
+        //         var isValid = true;
+        //         var title = $('[asp-for="Experience.Title"]').val().trim();
+        //         var startDate = $('[asp-for="Experience.StartDate"]').val().trim();
+        //         var description = $('[asp-for="Experience.Description"]').val().trim();
+        //         var presentlyWorking = $('#PresentlyWorking').is(':checked');
+        //         var endDate = $('[asp-for="Experience.EndDate"]').val().trim();
+
+        //         if (!title) {
+        //             isValid = false;
+        //             $('[asp-validation-for="Experience.Title"]').text('Title is required.');
+        //         } else {
+        //             $('[asp-validation-for="Experience.Title"]').text('');
+        //         }
+
+        //         if (!startDate) {
+        //             isValid = false;
+        //             $('[asp-validation-for="Experience.StartDate"]').text('Start Date is required.');
+        //         } else {
+        //             $('[asp-validation-for="Experience.StartDate"]').text('');
+        //         }
+
+        //         if (!description) {
+        //             isValid = false;
+        //             $('[asp-validation-for="Experience.Description"]').text('Description is required.');
+        //         } else {
+        //             $('[asp-validation-for="Experience.Description"]').text('');
+        //         }
+
+        //         if (!presentlyWorking && !endDate) {
+        //             isValid = false;
+        //             $('[asp-validation-for="Experience.EndDate"]').text('End Date or Presently Working is required.');
+        //         } else {
+        //             $('[asp-validation-for="Experience.EndDate"]').text('');
+        //         }
+
+        //         // Submit the form if all fields are valid
+        //         if (isValid) {
+        //             this.submit();
+        //         }
+        //     });
+        // });
+
+
     </script>
 }
