@@ -288,7 +288,8 @@ public class AccountController(ApplicationDBContext dbContext,
         //Updates the profile pic
         var newFileName = Guid.NewGuid().ToString();
         var newExtension = Path.GetExtension(ProfilePicture.FileName);
-        var newLocalPath = $"{webHostEnvironment.WebRootPath}\\images\\{newFileName}{newExtension}";
+        var newLocalPath = $"{webHostEnvironment.WebRootPath}" +
+                           $"//images//{newFileName}{newExtension}";
         var newProfilePic = new ProfilePicture()
         {
             FileName = newFileName,
@@ -296,7 +297,10 @@ public class AccountController(ApplicationDBContext dbContext,
             FileExtension = newExtension,
             FileSizeInBytes = ProfilePicture?.Length,
             FileType = "unknown",
-            FileURI = $"{httpContextAccessor.HttpContext?.Request.Scheme}://{httpContextAccessor.HttpContext?.Request.Host}{httpContextAccessor.HttpContext?.Request.PathBase}/images/{newFileName}{newExtension}"
+            FileURI = $"{httpContextAccessor.HttpContext?.Request.Scheme}:" +
+                      $"//{httpContextAccessor.HttpContext?.Request.Host}" +
+                      $"{httpContextAccessor.HttpContext?.Request.PathBase}" +
+                      $"/images/{newFileName}{newExtension}"
         };
         employee.ProfilePic = newProfilePic;
         if (ProfilePicture is null)
