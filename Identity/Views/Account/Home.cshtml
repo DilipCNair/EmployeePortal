@@ -1,8 +1,9 @@
 ﻿@model Employee
+@inject IWebHostEnvironment webHostEnvironment
 
 @{
     ViewData["Title"] = "Home";
-    ViewData["src"] = "https://localhost/images/EmployeeInCoat.png";
+    ViewData["src"] = $"{webHostEnvironment.WebRootPath}//images//EmployeeInCoat.png";
 }
 
 <br/>
