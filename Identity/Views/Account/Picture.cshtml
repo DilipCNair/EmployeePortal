@@ -13,7 +13,7 @@
 else
 {
     <div style="display:flex;justify-content:center">
-        <img id="profilePic" src="https://localhost/images/blank_profile_pic.png" style="border-radius:50%;width:300px;height:300px" alt="profile picture" /><br />
+        <img id="profilePic" src="~/images/blank_profile_pic.png" style="border-radius:50%;width:300px;height:300px" alt="profile picture" /><br />
     </div>
 }
 <br /><br />
@@ -43,11 +43,11 @@ else
                     alert("Please select an image file.");
                     if ($('#InputFile').val() === '') {
                         $('#InputFile').val('');
-                        $('#profilePic').attr('src', 'https://localhost/images/blank_profile_pic.png');
+                        $('#profilePic').attr('src', '/images/blank_profile_pic.png');
                     }
                     else {
                         $('#InputFile').val('');
-                        $('#profilePic').attr('src', 'https://localhost/images/blank_profile_pic.png');
+                        $('#profilePic').attr('src', '/images/blank_profile_pic.png');
                     }
                     return;
                 } else {
