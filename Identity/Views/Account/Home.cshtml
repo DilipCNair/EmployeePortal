@@ -1,9 +1,12 @@
 ﻿@model Employee
-@inject IWebHostEnvironment webHostEnvironment
+@inject HttpContextAccessor httpContextAccessor
 
 @{
     ViewData["Title"] = "Home";
-    ViewData["src"] = $"{webHostEnvironment.WebRootPath}//images//EmployeeInCoat.png";
+    ViewData["src"] = $"{httpContextAccessor.HttpContext?.Request.Scheme}:" +
+                      $"//{httpContextAccessor.HttpContext?.Request.Host}" +
+                      $"{httpContextAccessor.HttpContext?.Request.PathBase}" +
+                      $"//images//EmployeeInCoat.png";
 }
 
 <br/>
