@@ -1,7 +1,3 @@
-using Identity.Services;
-using Identity.Utils;
-using MailKit;
-
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 

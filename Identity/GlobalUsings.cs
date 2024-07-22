@@ -16,3 +16,5 @@ global using Identity.Data;
 global using Identity.Mappings;
 global using System.Text.RegularExpressions;
 global using Identity.Services;
+global using Identity.Utils;
+global using MailKit;
