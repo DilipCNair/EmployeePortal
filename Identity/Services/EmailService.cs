@@ -5,14 +5,9 @@ using MimeKit;
 
 namespace Identity.Services;
 
-public class EmailService : IEmailService
+public class EmailService(IOptions<MailSettings> mailSettingsOptions, IConfiguration config) : IEmailService
 {
-    private readonly MailSettings mailSettings;
-
-    public EmailService(IOptions<MailSettings> mailSettingsOptions)
-    {
-        mailSettings = mailSettingsOptions.Value;
-    }
+    private readonly MailSettings mailSettings = mailSettingsOptions.Value;
 
     public async Task<bool> SendMailAsync(MailData mailData)
     {
@@ -38,6 +33,8 @@ public class EmailService : IEmailService
             emailMessage.Body = emailBodyBuilder.ToMessageBody();
             //this is the SmtpClient from the Mailkit.Net.Smtp namespace,
             //not the System.Net.Mail one
+            mailSettings.UserName = config["UserName"];
+            mailSettings.Password = config["Password"];
             using SmtpClient mailClient = new();
             await mailClient.ConnectAsync(mailSettings.Server, mailSettings.Port, 
                                           MailKit.Security.SecureSocketOptions.StartTls);

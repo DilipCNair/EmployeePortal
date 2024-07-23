@@ -1,10 +1,15 @@
+using Azure.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 builder.Services.AddControllersWithViews();
 
+var keyVaultEndpoint = new Uri(config["AzureKeyVault"] ?? "");
+config.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+
 builder.Services.AddDbContext<ApplicationDBContext>
-                (options => options.UseSqlServer(config.GetConnectionString("AzureSQL")));
+                (options => options.UseSqlServer(config["AzureSQL"]));
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
                 .AddDefaultTokenProviders()

@@ -3,7 +3,8 @@
 [AllowAnonymous]
 public class HomeController(UserManager<Employee> userManager, 
                             SignInManager<Employee> signInManager,
-                            IEmailService email) : Controller
+                            IEmailService email,
+                            IWebHostEnvironment webHostEnvironment) : Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -89,7 +90,7 @@ public class HomeController(UserManager<Employee> userManager,
         if (employee != null)
         {
             var token = await userManager.GeneratePasswordResetTokenAsync(employee);
-            string url = $"http://localhost/Home/ResetPassword?email={model.Email}&token={token}";
+            string url = $"{webHostEnvironment.WebRootPath}/Home/ResetPassword?email={model.Email}&token={token}";
 
 
             MailData mailData = new()
