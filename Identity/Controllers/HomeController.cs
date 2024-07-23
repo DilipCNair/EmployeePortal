@@ -4,7 +4,7 @@
 public class HomeController(UserManager<Employee> userManager, 
                             SignInManager<Employee> signInManager,
                             IEmailService email,
-                            IWebHostEnvironment webHostEnvironment) : Controller
+                            HttpContextAccessor httpContextAccessor) : Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -90,7 +90,10 @@ public class HomeController(UserManager<Employee> userManager,
         if (employee != null)
         {
             var token = await userManager.GeneratePasswordResetTokenAsync(employee);
-            string url = $"{webHostEnvironment.WebRootPath}/Home/ResetPassword?email={model.Email}&token={token}";
+            var url = $"{httpContextAccessor.HttpContext?.Request.Scheme}:" +
+                      $"//{httpContextAccessor.HttpContext?.Request.Host}" +
+                      $"{httpContextAccessor.HttpContext?.Request.PathBase}" +
+                      $"/Home/ResetPassword?email={model.Email}&token={token}";
 
 
             MailData mailData = new()
