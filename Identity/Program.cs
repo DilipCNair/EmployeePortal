@@ -1,5 +1,3 @@
-using Azure.Identity;
-
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 

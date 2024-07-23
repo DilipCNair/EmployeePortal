@@ -18,3 +18,4 @@ global using System.Text.RegularExpressions;
 global using Identity.Services;
 global using Identity.Utils;
 global using MailKit;
+global using Azure.Identity;
