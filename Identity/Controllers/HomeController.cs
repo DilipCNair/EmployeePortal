@@ -107,10 +107,12 @@ public class HomeController(UserManager<Employee> userManager,
 
 
             var result = await email.SendMailAsync(mailData);
-            if (result)
-                return View("ForgotPasswordMessage");
-            else
-                return BadRequest("Error");
+            return View("ForgotPasswordMessage");
+
+            //if (result)
+            //    return View("ForgotPasswordMessage");
+            //else
+            //    return BadRequest("Error");
         }
 
         return BadRequest("Error");
