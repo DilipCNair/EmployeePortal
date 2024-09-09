@@ -14,6 +14,11 @@ Checkout from the repository and apply migrations. I have already created the mi
 
 ## First Run
 When you run the project for the first time you have to signup and make yourself admin. But for that initially, you have to bypass authorization checks.
-To bypass I have a code commented out in Layout.cshtml which is the replica of the code that runs only after authorization which you can uncomment.
-Then you have to also comment the authorization attribute applied directly to AdminController.
-No you can create roles and make yourself admin and then revert the code
+1. To bypass I have a code commented out in Layout.cshtml which is the replica of the code that runs only after authorization which you can uncomment.
+2. Then you have to also comment the authorization attribute applied directly to AdminController.
+3. Now you can create roles and make yourself admin and then revert the changes that you made now to activate authorization.
+4. Now the project is ready and you test all the features
+
+## Database
+Since the project uses PostgreSQL you have to set it up and import the connection string and put it in the appsettings.json or secrets.json
+
