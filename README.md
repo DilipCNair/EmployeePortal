@@ -5,8 +5,8 @@
 2. Backend - .NET 8
 3. ORM - Entity Framework
 4. Authentication and Authorization - Identity Framework
-5. Database - postgresql
+5. Database - Postgresql
 
 ## Setup
 
-Checkout from the repository and apply migrations. I have already created the migration so you just need to apply the migration using the command Update-Database
+Checkout from the repository and apply migrations. I have already created the migration so you just need to apply the migration using the command _Update-Database_
