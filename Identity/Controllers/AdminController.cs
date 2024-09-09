@@ -2,7 +2,7 @@
 
 namespace Identity.Controllers;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")] // Comment this for first run
 public class AdminController(UserManager<Employee> userManager, 
                              RoleManager<IdentityRole> roleManager,
                              ApplicationDBContext dbContext,

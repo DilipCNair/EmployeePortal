@@ -82,6 +82,8 @@ public class ManagerController(UserManager<Employee> userManager,
                               .Include(team=>team.Members)
                               .ThenInclude(member => member.Tasks)
                               .FirstOrDefault(team => team.Manager.Email == User.Identity.Name);
+        if (myTeam is null)
+            return View(null);
 
         var teamsViewModel = new TeamsViewModel()
         {
