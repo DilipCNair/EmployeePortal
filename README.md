@@ -23,4 +23,4 @@ When you run the project for the first time you have to sign up and make yoursel
 Since the project uses PostgreSQL you have to set it up and import the connection string and put it in the appsettings.json or secrets.json
 
 ## Slideshow 
-[https://www.canva.com/design/DAGQQbgx3BQ/rX9Y2MKtjzWYaMP3s9mIyg/view]
+https://www.canva.com/design/DAGQQbgx3BQ/rX9Y2MKtjzWYaMP3s9mIyg/view
