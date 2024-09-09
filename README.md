@@ -16,7 +16,7 @@ Checkout from the repository and apply migrations. I have already created the mi
 When you run the project for the first time you have to signup and make yourself admin. But for that initially, you have to bypass authorization checks.
 1. To bypass it, I have added codes which are initially commented out in Layout.cshtml, this code actually is the replica of the code that runs only after authorization, so uncomment that code.
 2. Then you have to also comment the authorization attribute applied directly to AdminController.
-3. Now you can create roles and make yourself admin and then revert the changes that you made now to activate authorization.
+3. Now you can create roles and make yourself admin and alos don't forget to revert the changes that you made so far to activate the authorization again.
 4. Now the project is ready and you test all the features
 
 ## Database
