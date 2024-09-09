@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Identity.Models.Employee">
+    <Position X="3.75" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AiCACGAAIAAAAAAAAAAQAAAAQAAYAAACAAAIAAASAAg=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Identity.Models.Team">
+    <Position X="0.75" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAACAABAAAAAQEAAAAAAA=</HashCode>
+      <FileName>Models\Team.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Identity.Models.TaskDocument">
+    <Position X="10.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAAAAAAAAAAAAAAgAQgCAAAAQAAAUAAABAAAA=</HashCode>
+      <FileName>Models\TaskDocument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Identity.Models.TaskNote">
+    <Position X="10.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAQAAAEAAAA=</HashCode>
+      <FileName>Models\TaskNote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Identity.Models.EmployeeTask">
+    <Position X="7.25" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAEAAAgAAAAAACAAAQAACAAAgAAAgQAAAAAQAA=</HashCode>
+      <FileName>Models\EmployeeTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="10" />
+</ClassDiagram>

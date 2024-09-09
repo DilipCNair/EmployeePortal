@@ -67,7 +67,7 @@ public class AccountController(ApplicationDBContext dbContext,
     }
 
     [HttpPost]
-    public async Task<IActionResult> Summary(ProfileViewModel model)
+    public async Task<IActionResult> Summary(ProfileViewModel request)
     {
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -76,12 +76,12 @@ public class AccountController(ApplicationDBContext dbContext,
         if (email is null)
             return BadRequest("You are not logged in");
 
-        var emp = await userManager.FindByEmailAsync(email);
-        if (emp is null)
+        var employee = await userManager.FindByEmailAsync(email);
+        if (employee is null)
             return BadRequest("Some internal server error");
 
-        emp.Summary = model.Summary;
-        var result = await userManager.UpdateAsync(emp);
+        employee.Summary = request.Summary;
+        var result = await userManager.UpdateAsync(employee);
         if (result.Succeeded)
             return RedirectToAction("Details");
         else
@@ -90,12 +90,12 @@ public class AccountController(ApplicationDBContext dbContext,
     }
 
     [HttpPost]
-    public async Task<IActionResult> Experience(ProfileViewModel model)
+    public async Task<IActionResult> Experience(ProfileViewModel request)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        if (model.Experience is null)
+        if (request.Experience is null)
             return BadRequest();
 
         var email = User?.Identity?.Name;
@@ -108,7 +108,7 @@ public class AccountController(ApplicationDBContext dbContext,
         if (employee == null)
             return BadRequest("Server error");
 
-        var experience = mapper.Map<Experience>(model.Experience);
+        var experience = mapper.Map<Experience>(request.Experience);
 
         employee.WorkExperience ??= [];
         employee.WorkExperience.Add(experience);       
@@ -155,22 +155,9 @@ public class AccountController(ApplicationDBContext dbContext,
         }
     }
 
-    [HttpGet]
-    public IActionResult Calender()
-    {
-        var model = new ProfileViewModel();
-        return View("Calender", model);
-    }
-
-    [HttpGet]
-    public IActionResult Requests()
-    {
-        var model = new ProfileViewModel();
-        return View("Requests", model);
-    }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateBasicDetails(BasicDetailsViewModel model)
+    public async Task<IActionResult> UpdateBasicDetails(BasicDetailsViewModel request)
     {
         //Updates basic details
         if (ModelState.IsValid && User.Identity?.Name is not null)
@@ -178,8 +165,8 @@ public class AccountController(ApplicationDBContext dbContext,
             var employee = await userManager.FindByNameAsync(User.Identity.Name);
             if (employee != null)
             {
-                model.EmployeeDepartMent = employee.EmployeeDepartment;
-                mapper.Map(model, employee);
+                request.EmployeeDepartMent = employee.EmployeeDepartment;
+                mapper.Map(request, employee);
                 var result = await userManager.UpdateAsync(employee);
                 if (result.Succeeded)
                 {
@@ -187,7 +174,8 @@ public class AccountController(ApplicationDBContext dbContext,
                     return RedirectToAction("Profile");
                 }
                 else
-                    ModelState.AddModelError(string.Empty, "Coundn't update your details now, please try again later");
+                    ModelState.AddModelError(string.Empty, "Coundn't update your details now, " +
+                        "                                           please try again later");
 
                 return RedirectToAction("Profile");
             }
@@ -243,8 +231,8 @@ public class AccountController(ApplicationDBContext dbContext,
         {
             var user = await userManager.FindByNameAsync(email);
             var employee = await userManager.Users
-                            .Include(x => x.ProfilePic)
-                            .SingleAsync(x => x.Email == email);
+                            .Include(emp => emp.ProfilePic)
+                            .SingleAsync(emp => emp.Email == email);
 
             if (employee != null)
             {
@@ -368,10 +356,12 @@ public class AccountController(ApplicationDBContext dbContext,
         //Checks if employee has a profile pic already, if yes it removes it first
         if (employee.ProfilePic != null)
         {
-            var ExistingLocalPath = $"{webHostEnvironment.WebRootPath}\\images\\{employee.ProfilePic.FileName}{employee.ProfilePic.FileExtension}";
+            var ExistingLocalPath = $"{webHostEnvironment.WebRootPath}//images//" +
+                $"{employee.ProfilePic.FileName}{employee.ProfilePic.FileExtension}";
             if (System.IO.File.Exists(ExistingLocalPath))
                 System.IO.File.Delete(ExistingLocalPath);
-            var profilePicture = dbContext.ProfilePics.FirstOrDefault(pic => pic.Id == employee.ProfilePic.Id);
+            var profilePicture = dbContext.ProfilePics.FirstOrDefault
+                                (pic => pic.Id == employee.ProfilePic.Id);
             if (profilePicture != null)
             {
                 dbContext.ProfilePics.Remove(profilePicture);
@@ -468,5 +458,244 @@ public class AccountController(ApplicationDBContext dbContext,
     {
         await signInManager.SignOutAsync();
         return RedirectToAction("Signin","Home");
+    }
+
+    [HttpGet]
+    public IActionResult Tasks()
+    {
+        string email = User.Identity.Name;
+        var employee = dbContext.Users
+                             .Include(emp => emp.Tasks)
+                             .FirstOrDefault(emp => emp.Email == email);
+        if (employee == null)
+            return View();
+
+        var tasksViewModel = new List<TaskViewModel>();
+        foreach (var task in employee.Tasks)
+        {
+            tasksViewModel.Add(new TaskViewModel()
+            {
+                Id = task.Id,
+                Name = task.Name,
+                Description = task.Description,
+                CreatedDate = task.CreatedDate,
+                TargetDate = task.TargetDate,
+                Status = task.Status.ToString(),
+                Member = email
+            });
+        }
+        ViewBag.Email = employee.Email;
+        ViewBag.DepartMent = employee.EmployeeDepartment;
+        ViewBag.Gender = employee.EmployeeGender.ToString();
+        ViewBag.Name = employee.FirstName + employee.LastName;
+        ViewBag.TotalTasks = employee.Tasks.Count;
+        return View(tasksViewModel);
+    }
+
+    [HttpGet]
+    public IActionResult Task(int id)
+    {
+        var task = dbContext.EmployeeTasks
+                            .Include(t=>t.Notes)
+                            .Include(t => t.TaskDocuments)
+                            .FirstOrDefault(task => task.Id == id);
+        if (task is null)
+            return BadRequest();
+        var taskViewModel = mapper.Map<TaskViewModel>(task);
+        taskViewModel.TaskStatus = task.Status;
+
+
+        return View(taskViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateStatus(int taskId, string status)
+    {
+        var task = dbContext.EmployeeTasks.FirstOrDefault(task => task.Id == taskId);
+        if (task is null)
+            return BadRequest();
+        if (System.Enum.TryParse(status, out EmployeeTaskStatus taskStatus))
+            task.Status = taskStatus;
+        await dbContext.SaveChangesAsync();
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetNotes(int taskId)
+    {
+        var email = User?.Identity?.Name;
+
+        var employee = await userManager.FindByEmailAsync(email);
+        if (employee is null)
+            return BadRequest();
+
+        var task = dbContext.EmployeeTasks
+                            .Include(e => e.Notes)
+                            .FirstOrDefault(task => task.Id == taskId);
+        if (task is null)
+            return BadRequest();
+
+        return View(task.Notes);
+    }
+
+    
+    [HttpPost]
+    public async Task<IActionResult> AddNote(int id, string newNote, string name)
+    {
+        var email = User?.Identity?.Name;
+
+        var employee = dbContext.Users
+                                .Include(e=>e.Tasks)
+                                .ThenInclude(t=>t.Notes)
+                                .FirstOrDefault(e=>e.Email==email);
+                
+        if (employee is null)
+            return BadRequest();
+
+        var task = dbContext.EmployeeTasks
+                            .Include(e=>e.Notes)
+                            .FirstOrDefault(task => task.Id == id);
+        if (task is null)
+            return BadRequest();
+
+
+        var note = new TaskNote()
+        {
+            Note = newNote,
+            Name = name
+        };
+
+        dbContext.TaskNotes.Add(note);
+        task.Notes.Add(note);
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Task",new { id });
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteNote(int taskId, int noteId)
+    {
+        var email = User?.Identity?.Name;
+
+        var employee = await userManager.FindByEmailAsync(email);
+        if (employee is null)
+            return RedirectToAction("Task", new { id = taskId });
+
+        var task = dbContext.EmployeeTasks
+                            .Include(e => e.Notes)
+                            .FirstOrDefault(task => task.Id == taskId);
+        if (task is null)
+            return RedirectToAction("Task", new { id = taskId });
+
+
+        var note = dbContext.TaskNotes.FirstOrDefault(n => n.Id == noteId);
+        if (note is null)
+            return RedirectToAction("Task", new { id = taskId });
+
+        dbContext.TaskNotes.Remove(note);
+        task.Notes.Remove(note);
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Task", new { id = taskId });
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddDocument(int taskId, IFormFile document, string description)
+    {
+        var email = User?.Identity?.Name;
+
+        if (email is null || document is null)
+        {
+            TempData["Error"] = "Email or form data is null";
+            return RedirectToAction("Tasks");
+        }
+
+        if (!IsValidDocument(document))
+        {
+            TempData["Error"] = "document not valid";
+            return RedirectToAction("Tasks");
+        }
+
+        var employee = await userManager.FindByEmailAsync(email);
+        if (employee is null)
+        {
+            TempData["Error"] = "User not found";
+            return RedirectToAction("Tasks");
+        }
+
+        var newFileName = document.FileName;
+        var newExtension = Path.GetExtension(document.FileName);
+        var newLocalPath = $"{webHostEnvironment.WebRootPath}" +
+                           $"\\documents\\{newFileName}";
+        var newDocument = new TaskDocument()
+        {
+            FileName = newFileName,
+            FileDescription = description,
+            FileExtension = newExtension,
+            FileSizeInBytes = document?.Length,
+            FileType = "unknown",
+            FileURI = $"{httpContextAccessor.HttpContext?.Request.Scheme}:" +
+                      $"//{httpContextAccessor.HttpContext?.Request.Host}" +
+                      $"{httpContextAccessor.HttpContext?.Request.PathBase}" +
+                      $"/documents/{newFileName}"
+        };
+
+        var task = dbContext.EmployeeTasks
+                            .Include(e => e.TaskDocuments)
+                            .FirstOrDefault(task => task.Id == taskId);
+
+        dbContext.TaskDocuments.Add(newDocument);
+        task.TaskDocuments.Add(newDocument);
+
+        using var stream = new FileStream(newLocalPath, FileMode.Create);
+        await document.CopyToAsync(stream);
+
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Task", new {id=taskId});
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveDocument(int taskId, int documentId)
+    {
+        var task = dbContext.EmployeeTasks
+                           .Include(e => e.TaskDocuments)
+                           .FirstOrDefault(task => task.Id == taskId);
+
+        var document = dbContext.TaskDocuments
+                                .FirstOrDefault(d => d.Id == documentId);
+
+        var path = $"{webHostEnvironment.WebRootPath}\\documents\\" +
+                   $"{document.FileName}{document.FileExtension}";
+        if (System.IO.File.Exists(path))
+            System.IO.File.Delete(path);
+
+        dbContext.TaskDocuments.Remove(document);
+        task.TaskDocuments.Remove(document);
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Task", new { id = taskId });
+    }
+
+    private bool IsValidDocument(IFormFile document)
+    {
+        var allowedExtensions = new string[] {".pdf",".docx",".doc",".odt",".ppt",".pptx",".txt"};
+
+        if (!allowedExtensions.Contains(Path.GetExtension(document?.FileName)))
+        {
+            ModelState.AddModelError("File", "Unsupported file extension");
+            return false;
+        }
+
+        if (document?.Length > 10485760)
+        {
+            ModelState.AddModelError("File", "File size more than 10MB, please upload a smaller size file.");
+            return false;
+        }
+
+        return true;
     }
 }

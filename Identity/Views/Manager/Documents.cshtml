@@ -1,0 +1,64 @@
+﻿@model EmployeeTask
+
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<br />
+
+<div class="col-12 d-flex justify-content-start align-items-center">
+    <header>
+        <h4 class="mt-2 mb-5" style="margin-left:0px;color:grey;font-weight:400">Documents Added</h4>
+    </header>
+</div>
+
+@if (Model.TaskDocuments.Count == 0)
+{
+    <p style="color:grey;text-align:center">No documents added yet</p>
+}
+else
+{
+    <table class="table table-striped table-responsive w-100">
+        <thead class="table-dark">
+            <tr>
+                <th>Dcument Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Size</th>
+                <th>Uploaded On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.TaskDocuments)
+            {
+                <tr>
+                    <td>@task.Id</td>
+                    <td>@task.FileName</td>
+                    <td style="max-width: 500px; word-wrap: break-word;">
+                        @task.FileDescription
+                    </td>
+                    <td>@(Math.Round((double)task.FileSizeInBytes / 1_048_576, 2)) MB</td>
+
+                    <td>@task.Created.ToString("dd MMMM yyyy")</td>
+                    <td>
+                        <div class="container ms-2 d-flex align-items-center">
+                            <a class="link-offset-2 link-underline link-underline-opacity-0"
+                               data-toggle="tooltip" title="Download" href="@task.FileURI">
+                                <i class="fi fi-ss-down-to-line" style="font-size:20px"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div class="text-center mt-5">
+    <a class="link-offset-2 link-underline link-underline-opacity-0"
+       asp-controller="Manager" asp-action="MyTeam">
+        <i class="fi fi-sr-arrow-left"
+           style="vertical-align:middle;margin-right:3px"></i> Back to My Team
+    </a>
+</div>

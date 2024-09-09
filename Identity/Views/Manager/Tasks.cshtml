@@ -1,0 +1,75 @@
+﻿@model List<TaskViewModel>
+
+@{
+    ViewData["Title"] = "Assign Tasks";
+}
+
+<div class="col-12 d-flex justify-content-center align-items-center">
+    <header>
+        <h2 class="display-6">Tasks</h2>
+    </header>
+</div>
+<br />
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped table-responsive w-100">
+        <thead class="table-success">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created Date</th>
+                <th>Target Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <td>@task.Id</td>
+                    <td>@task.Name</td>
+                    <td style="max-width: 275px; word-wrap: break-word;">
+                        @task.Description
+                    </td>
+                    <td>@task.CreatedDate.ToString("dd MMMM yyyy")</td>
+                    <td>@task.TargetDate.ToString("dd MMMM yyyy")</td>
+                    <td style="color:@(task.Status == "Cancelled" || task.Status == "Onhold" ? "brown" : "seagreen")">
+                        @task.Status
+                    </td>
+
+                    <td>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0"
+                           asp-action="GetTask" asp-route-taskId="@task.Id">Documents</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color:gray">No tasks has been assigned to this user yet</p>
+}
+
+<div class="justify-content-center mb-4 mt-5">
+    <h5 class="mb-3">Member Details</h5>
+    <p>Email : @ViewBag.Email</p>
+    <p>Department : @ViewBag.DepartMent</p>
+    <p>Gender : @ViewBag.Gender</p>
+    <p>Name : @ViewBag.Name</p>
+    <p>Total Tasks : @ViewBag.TotalTasks</p>
+</div>
+
+<div style="margin-top:25px; display: flex; justify-content: start; width: 100%;">
+    <a class="btn btn-dark d-flex align-items-center rounded-pill" style="width: 150px;"
+       asp-action="CreateTask">
+        <i class="fi fi-rr-plus ms-1" style="margin-right: 7px; margin-top: 3px;"></i>
+        <span style="margin-left:5px">Assign Task</span>
+    </a>
+    </button>
+    <a class="mt-2 ms-4 link-offset-2 link-underline link-underline-opacity-0" style="margin-left:15px"
+       asp-action="MyTeam">Done</a>
+</div>

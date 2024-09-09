@@ -1,7 +1,12 @@
-﻿namespace Identity.Controllers;
+﻿using AutoMapper.Execution;
+
+namespace Identity.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class AdminController(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager) : Controller
+public class AdminController(UserManager<Employee> userManager, 
+                             RoleManager<IdentityRole> roleManager,
+                             ApplicationDBContext dbContext,
+                             IMapper mapper) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> ManageUsers()
@@ -67,26 +72,15 @@ public class AdminController(UserManager<Employee> userManager, RoleManager<Iden
             var result = await roleManager.CreateAsync(newRole);
 
             if (result.Succeeded)
-            {
-                // Role created successfully
                 return RedirectToAction("ManageRoles");
-            }
             else
-            {
-                // Handle errors if any
                 foreach (var error in result.Errors)
-                {
                     ModelState.AddModelError("", error.Description);
-                }
-            }
         }
         else
-        {
-            // Role already exists
             ModelState.AddModelError("", "Role already exists.");
-        }
 
-        // If we reach here, something went wrong, redisplay the form
+
         return View("CreateRole");
     }
 
@@ -281,69 +275,149 @@ public class AdminController(UserManager<Employee> userManager, RoleManager<Iden
 
 
     [HttpGet]
-    public async Task<IActionResult> ManageClaims(string email)
+    public async Task<IActionResult> Teams()
     {
-        var user = await userManager.FindByEmailAsync(email);
-        if(user is null)
-        {
-            ModelState.AddModelError("", $"User with email = {email} cannot be found");
-            return View();
-        }
-        var model = new UserClaimsViewModel
-        {
-            Email = email
-        };
-        var existingUserClaims = await userManager.GetClaimsAsync(user);
-        foreach(Claim claim in ClaimsStore.AllClaims)
-        {
-            var userClaim = new UserClaim()
-            {
-                User_Claim = new Claim(claim.Type,claim.Value)
-            };
+        var teams = await dbContext.Teams
+                                   .Include(team => team.Manager)
+                                   .Include(team => team.Members)
+                                   .ToListAsync();
+        return View(teams);
+    }
 
-            if (existingUserClaims.Any(c=>c.Type == claim.Type))
-                userClaim.IsSeleted = true;
-            
-            model?.UserClaims?.Add(userClaim);
-        }
-        return View(model);
+    [HttpGet]
+    public IActionResult Team(int id)
+    {
+        var team = dbContext.Teams
+                            .Include(team => team.Manager)
+                            .Include(team => team.Members)
+                            .FirstOrDefault(team => team.Id == id);
+        var teamsViewModel = mapper.Map<TeamsViewModel>(team);
+        
+        return View(teamsViewModel);
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> CreateTeam()
+    {
+        var managers = await userManager.GetUsersInRoleAsync("Manager");
+
+        var teamViewModel = new TeamsViewModel
+        {
+            Members = managers.ToList()
+        };
+
+
+        return View("AddTeam",teamViewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> ManageUserClaims(UserClaimsViewModel model)
+    public async Task<IActionResult> CreateTeam([FromForm]TeamsViewModel request)
     {
-        var user = await userManager.FindByIdAsync(model.Email);
-
-        if (user == null)
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError("", $"User with email = {model.Email} cannot be found");
-            return View();
+            var managers = (List<Employee>)await userManager.GetUsersInRoleAsync("Manager");
+            request.Members = managers;
+            return View("AddTeam", request);
+        }
+        var manager = await userManager.FindByEmailAsync(request.Manager);
+        if (manager != null)
+        {
+            var team = new Team()
+            {
+                Manager = manager,
+                Name = request.Name,
+                Description = request.Description
+            };
+            await dbContext.Teams.AddAsync(team);
+            await dbContext.SaveChangesAsync();
         }
 
-
-        var claims = await userManager.GetClaimsAsync(user);
-        var result = await userManager.RemoveClaimsAsync(user, claims);
-
-        if (!result.Succeeded)
-        {
-            ModelState.AddModelError("", "Cannot remove claims");
-            return View(model);
-        }
-
-        foreach (var userClaim in model.UserClaims)
-        {
-            if (userClaim.IsSeleted)
-                result = await userManager.AddClaimAsync(user, userClaim.User_Claim);
-        }
-
-        if (!result.Succeeded)
-        {
-            ModelState.AddModelError("", "Cannot add claims to the user");
-            return View(model);
-        }
-
-        return View();
-
+        return RedirectToAction("Teams");
     }
 
+
+    [HttpPost]
+    public async Task<IActionResult> AddMember(TeamsViewModel request)
+    {
+        var team = await dbContext.Teams.FirstOrDefaultAsync(team => team.Id == request.Id);      
+        var employee = await userManager.FindByEmailAsync(request.Member);
+        if (team is null || employee is null)
+            return BadRequest();
+
+        if (team.Members.Contains(employee) || !await userManager.IsInRoleAsync(employee, "User"))
+            return BadRequest();
+        team.Members.Add(employee);
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Teams");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveMember(TeamsViewModel request)
+    {
+        var team = await dbContext.Teams.FirstOrDefaultAsync(team => team.Id == request.Id);
+        var employee = await userManager.FindByEmailAsync(request.Member);
+        if (team is null || employee is null)
+            return BadRequest();
+
+        if (!team.Members.Contains(employee))
+            return BadRequest();
+        team.Members.Remove(employee);
+        await dbContext.SaveChangesAsync();
+
+        return RedirectToAction("Teams");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteTeam([FromForm] int teamId)
+    {
+        var team = await dbContext.Teams
+                                  .Include(team=>team.Members)
+                                  .FirstOrDefaultAsync(team => team.Id == teamId);
+        if (team is null || team.Members.Count != 0)
+            return RedirectToAction("Teams");
+        dbContext.Teams.Remove(team);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Teams");
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ViewTeam(int teamId)
+    {
+        var team = dbContext.Teams
+                            .Include(t => t.Members)
+                            .ThenInclude(e=>e.Tasks)
+                            .FirstOrDefault(t => t.Id == teamId);
+        return View(team);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ViewTasks(string email)
+    {
+
+        var employee = userManager.Users.Include(e => e.Tasks).FirstOrDefault(e => e.Email == email);
+
+        var tasksViewModel = new List<TaskViewModel>();
+        foreach (var task in employee.Tasks)
+        {
+            tasksViewModel.Add(new TaskViewModel()
+            {
+                Id = task.Id,
+                Name = task.Name,
+                Description = task.Description,
+                CreatedDate = task.CreatedDate,
+                TargetDate = task.TargetDate,
+                Status = task.Status.ToString(),
+                Member = email
+            });
+        }
+        ViewBag.Email = employee.Email;
+        ViewBag.DepartMent = employee.EmployeeDepartment;
+        ViewBag.Gender = employee.EmployeeGender.ToString();
+        ViewBag.Name = employee.FirstName + employee.LastName;
+        ViewBag.TotalTasks = employee.Tasks.Count;
+        return View(tasksViewModel);
+    }
 }

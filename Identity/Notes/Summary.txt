@@ -6,3 +6,17 @@ security independently (mainly in Reverse Engineering Binaries). I am also profi
 Linux, Computer Networks, and Cryptography concepts. So having sufficient expertise in 
 software development (mainly in .NET) and cyber security I can make a major contribution
 to these fields. My experience in cyber security makes me a better software engineer.
+
+builder.Services.AddAuthorizationBuilder()
+                .AddPolicy("EditRolePolicy", policy =>
+                                             policy.RequireClaim("EditRole")
+                                                   .RequireRole("Admin")
+                                                   .RequireAssertion(context =>
+                                                                     context.User.IsInRole("Manager")));
+
+
+modelBuilder.Entity<Employee>()
+            .HasMany(e => e.WorkExperience)
+            .WithOne()
+            .HasForeignKey(e => e.Id);
+        

@@ -1,0 +1,57 @@
+﻿@model Team
+
+@{
+    ViewData["Title"] = "Team";
+}
+
+<div class="col-12 d-flex justify-content-center align-items-center">
+    <header>
+        <h2 class="display-6">Team</h2>
+    </header>
+</div>
+<br />
+
+@if (Model.Members != null && Model.Members.Any())
+{
+    <table class="table table-striped table-responsive w-100">
+        <thead class="table-primary">
+            <tr>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Total Tasks</th>
+                <th>Tasks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model.Members)
+            {
+                <tr>
+                    <td>@member.Email</td>
+                    <td>@member.EmployeeDepartment</td>
+                    <td>@member.FirstName @member.MiddleName @member.LastName</td>
+                    <td>@member.EmployeeGender</td>
+                    <td>@member.Tasks.Count</td>
+                    <td>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0"
+                           asp-action="ViewTasks" asp-route-email="@member.Email">Tasks</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color:gray">No members in the team</p>
+}
+
+<br/>
+<div class="text-center mt-5">
+    <a class="link-offset-2 link-underline link-underline-opacity-0"
+       asp-controller="Admin" asp-action="Teams">
+        <i class="fi fi-sr-arrow-left"
+           style="vertical-align:middle;margin-right:3px"></i> Back to Manage Teams
+    </a>
+</div>

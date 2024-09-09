@@ -10,5 +10,7 @@ public class MappingProfiles : Profile
         CreateMap<ManagerViewModel, Employee>().ReverseMap();
         CreateMap<BasicDetailsViewModelForManager, Employee>().ReverseMap();
         CreateMap<ExperienceViewModel, Experience>().ReverseMap();
+        CreateMap<TeamsViewModel, Team>().ReverseMap();
+        CreateMap<TaskViewModel, EmployeeTask>().ReverseMap();
     }
 }

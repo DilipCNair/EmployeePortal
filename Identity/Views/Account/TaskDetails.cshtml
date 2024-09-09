@@ -1,0 +1,57 @@
+﻿@model TaskViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br/>
+<div class="row">
+    <div class="form-group row">
+        <label asp-for="@Model.Name" class="col-sm-2 col-form-label">Name :</label>
+        <div class="col-sm-4 mb-4">
+            <input asp-for="@Model.Name" disabled class="form-control" />
+            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="@Model.Description" class="col-sm-2 col-form-label">Description :</label>
+        <div class="col-sm-4 mb-4">
+            <textarea placeholder="Give a description" disabled class="form-control" id="Description"
+                      name="Description" rows="4" style="resize: none;"
+                      asp-for="@Model.Description" rows="4"></textarea>
+            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="@Model.CreatedDate" class="col-sm-2 col-form-label">Created Date :</label>
+        <div class="col-sm-4 mb-4">
+            <input type="text" value="@Model.CreatedDate.ToString("dd MMMM yyyy")" disabled class="form-control" />
+            <span asp-validation-for="@Model.CreatedDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="@Model.TargetDate" class="col-sm-2 col-form-label">Target Date :</label>
+        <div class="col-sm-4 mb-4">
+            <input type="text" value="@Model.TargetDate.ToString("dd MMMM yyyy")" disabled class="form-control" />
+            <span asp-validation-for="@Model.TargetDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mt-4 form-group row">
+        <label asp-for="@Model.TaskStatus" class="col-sm-2 col-form-label">Status :</label>
+        <div class="col-sm-4 mb-4 d-flex align-items-center">
+            <select asp-for="@Model.TaskStatus" class="form-select" id="TaskStatus" disabled>
+                @foreach (var status in Enum.GetValues(typeof(EmployeeTaskStatus)))
+                {
+                    <option value="@status">@status</option>
+                }
+            </select>
+            @* <button id="editUpdateBtn" type="button" class="ms-3 btn btn-link ml-auto" style="text-decoration:none">Edit</button> *@
+            <span asp-validation-for="@Model.TaskStatus" class="text-danger"></span>
+        </div>
+        <div class="col-sm-4">
+            <button id="editUpdateBtn" type="button" class="btn btn-link" style="text-decoration:none;margin-left:-18px">Edit</button>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" asp-for="@Model.Id" />

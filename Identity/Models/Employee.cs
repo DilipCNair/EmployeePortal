@@ -29,11 +29,45 @@ public class Employee : IdentityUser
 
     public string? MobileNumber { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+
+    private DateTime? _dateOfBirth;
+
+    public DateTime? DateOfBirth
+    {
+        get
+        {
+            if (_dateOfBirth.HasValue)
+            {
+                // Convert UTC to local time when getting
+                return _dateOfBirth.Value.Kind == DateTimeKind.Utc
+                    ? _dateOfBirth.Value.ToLocalTime()
+                    : _dateOfBirth.Value;
+            }
+            return null;
+        }
+        set
+        {
+            if (value.HasValue)
+            {
+                // Convert to UTC if not already UTC when setting
+                _dateOfBirth = value.Value.Kind == DateTimeKind.Utc
+                    ? value
+                    : value.Value.ToUniversalTime();
+            }
+            else
+            {
+                _dateOfBirth = null;
+            }
+        }
+    }
+
+
 
     public Address? Address { get; set; }
 
     public ProfilePicture? ProfilePic { get; set; }
     
-    public List<Experience>? WorkExperience { get; set; }   
+    public List<Experience>? WorkExperience { get; set; }
+
+    public List<EmployeeTask> Tasks { get; set; }
 }

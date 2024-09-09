@@ -1,11 +1,11 @@
-﻿using Identity.Utils;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace Identity.Services;
 
-public class EmailService(IOptions<MailSettings> mailSettingsOptions, IConfiguration config) : IEmailService
+public class EmailService(IOptions<MailSettings> mailSettingsOptions, 
+                          IConfiguration config) : IEmailService
 {
     private readonly MailSettings mailSettings = mailSettingsOptions.Value;
 
@@ -33,7 +33,7 @@ public class EmailService(IOptions<MailSettings> mailSettingsOptions, IConfigura
             emailMessage.Body = emailBodyBuilder.ToMessageBody();
             //this is the SmtpClient from the Mailkit.Net.Smtp namespace,
             //not the System.Net.Mail one
-            mailSettings.UserName = config["UserName"];
+            mailSettings.UserName = "dilipnc96@gmail.com";
             mailSettings.Password = config["Password"];
             using SmtpClient mailClient = new();
             await mailClient.ConnectAsync(mailSettings.Server, mailSettings.Port, 

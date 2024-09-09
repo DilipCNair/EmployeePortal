@@ -1,0 +1,135 @@
+﻿@model TeamsViewModel
+
+@{
+    ViewData["Title"] = "Team";
+}
+
+<div class="col-12 d-flex">
+    <header>
+        <h2 class="display-6" style="font-size:30px;font-weight:300">Team</h2>
+    </header>
+</div>
+<hr /><br/>
+
+    
+<div class="form-group row">
+    <label asp-for="@Model.Name" class="col-sm-2 col-form-label">Name :</label>
+    <div class="col-sm-4 mb-4">
+        <input asp-for="@Model.Name" disabled class="form-control" />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="@Model.Description" class="col-sm-2 col-form-label">Description :</label>
+    <div class="col-sm-4 mb-4">
+        <textarea placeholder="Give a description" disabled class="form-control" id="Description"
+                  name="Description" rows="4" style="resize: none;"
+                  asp-for="@Model.Description" rows="4"></textarea>
+        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="@Model.Manager" class="col-sm-2 col-form-label">Manager :</label>
+    <div class="col-sm-4 mb-4">
+        <input asp-for="@Model.Manager" disabled class="form-control" />
+        <span asp-validation-for="@Model.Manager" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="Member" class="col-sm-2 col-form-label">Add Member : </label>
+    <div class="col-sm-4">
+        <form id="MemberForm" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="text" class="form-control" placeholder="Email address" asp-for="Member">
+            <button style="margin-left:-10px" id="Add" class="btn btn-link mt-2 link-offset-2 link-underline link-underline-opacity-0">
+                Add
+            </button>
+            <button id="Remove" class="btn btn-link link-offset-2 mt-2 link-underline link-underline-opacity-0">
+                Remove
+            </button>
+        </form>
+    </div>
+</div>    
+<div class="form-group row mt-5">
+    <label asp-for="@Model.Manager" class="col-sm-2 col-form-label mb-3">Members :</label>
+    @if(Model.Members != null && Model.Members.Any())
+    {
+        @foreach(var member in Model.Members)
+        {
+            <ul>
+                <li>@member.Email</li>
+            </ul>
+        }
+    }
+    else
+    {
+        <p style="color:gray">No members in the team</p>
+    }
+</div>
+
+
+<form id="DeleteTeamForm" method="post" action="/Admin/DeleteTeam">
+    <div class="d-flex justify-content-center mb-2">
+        <input type="hidden" name="teamId" id="teamId" value="@Model.Id"/>
+        <button id="DeleteTeam" class="btn btn-dark" type="submit">Delete team</button>
+    </div>
+</form>
+<div class="text-center mt-5">
+    <a class="link-offset-2 link-underline link-underline-opacity-0"
+       asp-controller="Admin" asp-action="Teams">
+        <i class="fi fi-sr-arrow-left"
+           style="vertical-align:middle;margin-right:3px"></i> Back to Manage Teams
+    </a>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            // Handle Add button click
+            $('#Add').click(function (event) {
+                event.preventDefault(); // Prevent default button action
+
+                $.ajax({
+                    url: '@Url.Action("AddMember", "Admin")', // Replace with your actual endpoint
+                    type: 'POST',
+                    data: $('#MemberForm').serialize(), // Serialize the form data
+                    success: function (response) {
+                        location.reload(); // Optional: Reload the page to see updates
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Email does not exist or the member is already added to the team or the member does not belong to user role. ' + error);
+                    }
+                });
+            });
+
+            // Handle Remove button click
+            $('#Remove').click(function (event) {
+                event.preventDefault(); // Prevent default button action
+
+                $.ajax({
+                    url: '@Url.Action("RemoveMember", "Admin")', // Replace with your actual endpoint
+                    type: 'POST',
+                    data: $('#MemberForm').serialize(), // Serialize the form data
+                    success: function (response) {
+                        location.reload(); // Optional: Reload the page to see updates
+                    },
+                    error: function (xhr, status, error) {
+                        alert('The provided member does not exist or not added to the team. ' + error);
+                    }
+                });
+            });
+
+            $('#DeleteTeam').click(function (e) {
+                e.preventDefault(); // Prevent form submission
+                var confirmed = confirm('To delete this team make sure that the team is not having members in it, so are you sure you want to delete this team?');
+                if (confirmed) {
+                    $('#DeleteTeamForm').submit(); // Submit the form if confirmed
+                }
+            });
+
+        });
+    </script>
+
+
+}
+

@@ -1,0 +1,77 @@
+﻿@model TaskViewModel
+
+@{
+    ViewData["Title"] = "Notes";
+}
+
+
+@if (Model.Notes.Count == 0)
+{
+    <p class="mt-5" style="color:grey;text-align:center">No notes added yet</p>
+}
+else
+{
+    @foreach(var note in Model.Notes)
+    {
+        <div id="Notes" class="row border rounded shadow-sm bg-body-tertiary mb-3">
+            <p class="mt-2" style="font-weight:700;font-size:18px;margin-bottom:3px">@note.Name</p>
+
+            <p style="font-weight:400;font-size:14px;margin-bottom:3px;color:dimgrey">
+                @note.Created.ToString("dd MMMM yyyy")
+             </p>
+            <p style="margin-bottom:0;color:dimgray">@note.Note</p>
+            <form method="post" action="/Account/DeleteNote">
+                <input type="hidden" id="taskId" name="taskId" value="@Model.Id" />
+                <input type="hidden" id="noteId" name="noteId" value="@note.Id" />
+                <button class="btn btn-link remove-experience" 
+                style="text-decoration:none;margin-left:-13px" type="submit">Remove</button>
+            </form>
+            @* <hr/> *@
+        </div>
+    }
+}
+
+<button class="btn btn-dark d-flex align-items-center rounded-pill" 
+   style="width: 150px; position: fixed; bottom: 50px; right: 50px; z-index: 1000;"
+    data-bs-toggle="modal"
+    data-bs-target="#AddNote">
+    <i class="fi fi-rr-plus ms-1" style="margin-right: 7px; margin-top: 3px;"></i>
+    <span style="margin-left:5px">Add Note</span>
+</button>
+
+<div class="modal fade" id="AddNote" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add a new note</h1>
+                <input type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+            </div>
+            <form id="noteForm" method="post" action="/Account/AddNote">
+                <div class="modal-body">              
+                        <div class="row mb-4 d-flex justify-content-center">
+                            <label class="col-sm-2 col-form-label">Tag</label>
+                            <div class="col-sm-8">
+                                <input type="text" required placeholder="Give a name to your note"
+                                       class="form-control" name="name">
+                            </div>
+                        </div>
+
+                        <div class="row mb-4 d-flex justify-content-center">
+                            <label for="Description" class="col-sm-2 col-form-label">Note</label>
+                            <div class="col-sm-8">
+                                <textarea placeholder="Type your note here" required class="form-control" id="Description"
+                                          name="newNote" rows="8" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="@Model.Id"/>
+                
+                 </div>
+                <div class="modal-footer">
+                    @* data-bs-dismiss="modal" *@
+                    <button id="submitBtn" type="submit" class="btn btn-dark">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

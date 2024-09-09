@@ -29,7 +29,6 @@ public class HomeController(UserManager<Employee> userManager,
         return View("Contact", model);
     }
 
-
     [HttpGet]
     public IActionResult Signin()
     {      
@@ -41,8 +40,8 @@ public class HomeController(UserManager<Employee> userManager,
     {
         if(ModelState.IsValid)
         {
-            var result = await signInManager.PasswordSignInAsync(model.Email,model.Password,
-                                                                 model.RememberMe,false);
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
+                                                                 model.RememberMe, false);
             if (result.Succeeded)
             {
                 var employee = await userManager.Users
@@ -105,16 +104,9 @@ public class HomeController(UserManager<Employee> userManager,
                             $"Click on the below link to reset your password\n\n{url}"
             };
 
-
-            var result = await email.SendMailAsync(mailData);
+            await email.SendMailAsync(mailData);
             return View("ForgotPasswordMessage");
-
-            //if (result)
-            //    return View("ForgotPasswordMessage");
-            //else
-            //    return BadRequest("Error");
         }
-
         return BadRequest("Error");
     }
 
@@ -218,17 +210,17 @@ public class HomeController(UserManager<Employee> userManager,
     }
 
     [HttpPost]
-    public async Task<IActionResult> Signup(SignupViewModel model)
+    public async Task<IActionResult> Signup(SignupViewModel request)
     {
         if(ModelState.IsValid)
         {          
             var user = new Employee
             {
-                UserName = model.Email,
-                Email = model.Email,            
+                UserName = request.Email,
+                Email = request.Email,            
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
@@ -236,7 +228,7 @@ public class HomeController(UserManager<Employee> userManager,
             }
             ModelState.AddModelError(string.Empty, "Some internal server error occured");
         }
-        return View(model);
+        return View(request);
     }
 
     public IActionResult Deleted()
