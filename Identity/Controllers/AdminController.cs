@@ -15,6 +15,7 @@ public class AdminController(UserManager<Employee> userManager,
         var users = await userManager.Users.ToListAsync();
 
 
+
         foreach(var user in users)
         {            
             var currentRoles = await userManager.GetRolesAsync(user);

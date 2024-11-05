@@ -38,14 +38,14 @@ else
                     <td>
                         <div class="d-flex align-items-center">
                             <a class="link-offset-2 link-underline link-underline-opacity-0"
-                               data-toggle="tooltip" title="Download" href="@task.FileURI">
+                               data-toggle="tooltip" title="Download" href="@task.FileURI" download>
                                 <i class="fi fi-ss-down-to-line" style="font-size:20px"></i>
                             </a>
-                            <form id="DeleteDocumentForm" method="post" action="/Account/RemoveDocument" class="mb-0 ms-3">
+                            <form method="post" action="/Account/RemoveDocument" class="mb-0 ms-3">
                                 <input type="hidden" value="@Model.Id" name="taskId" />
                                 <input type="hidden" value="@task.Id" name="documentId" />
-                                <button id="DeleteDocument" data-toggle="tooltip" title="Delete">
-                                    <i class="fi fi-rr-trash" style="font-size:20px"></i>
+                                <button class="DeleteDocument" style="border:hidden;background-color:transparent" data-toggle="tooltip" title="Delete">
+                                    <i class="fi fi-rr-trash" style="font-size:20px;color:dodgerblue;"></i>
                                 </button>
                             </form>
                         </div>

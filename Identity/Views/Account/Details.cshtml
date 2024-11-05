@@ -41,14 +41,14 @@
     <div class="form-group row">
         <label asp-for="Experience.Title" class="col-sm-2 col-form-label">Title :</label>
         <div class="col-sm-4 mb-4">
-            <input asp-for="Experience.Title" class="form-control" />
+            <input asp-for="Experience.Title" class="form-control" required />
             <span asp-validation-for="Experience.Title" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="Experience.StartDate" class="col-sm-2 col-form-label">Start Date :</label>
         <div class="col-sm-2 mb-4">
-            <input type="date" asp-for="Experience.StartDate" class="form-control" />
+            <input type="date" asp-for="Experience.StartDate" required class="form-control" />
             <span asp-validation-for="Experience.StartDate" class="text-danger"></span>
         </div>
     </div>
@@ -69,7 +69,7 @@
     <div class="form-group row">
         <label asp-for="Experience.Description" class="col-sm-2 col-form-label">Description :</label>
         <div class="col-sm-4 mb-4">
-            <textarea asp-for="Experience.Description" style="height:200px;resize:none" class="form-control"></textarea>
+            <textarea asp-for="Experience.Description" required style="height:200px;resize:none" class="form-control"></textarea>
             <span asp-validation-for="Experience.Description" class="text-danger"></span>
         </div>
     </div>

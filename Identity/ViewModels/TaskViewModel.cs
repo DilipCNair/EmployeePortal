@@ -13,7 +13,7 @@ public class TaskViewModel
     public DateTime CreatedDate { get; set; }
 
     [Required]
-    public DateTime TargetDate { get; set; }
+    public DateTime TargetDate { get; set; } = DateTime.UtcNow;
 
     public string Member { get;set; }
 
@@ -24,4 +24,11 @@ public class TaskViewModel
     public List<TaskNote> Notes { get; set; } = [];
 
     public List<TaskDocument> TaskDocuments { get; set; } = [];
+
+    public bool DetailsSelected { get; set; } = true;
+
+    public bool NotesSelected { get; set; } = false;
+
+    public bool DocumentsSelected { get; set; } = false;
+
 }

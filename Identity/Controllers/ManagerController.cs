@@ -105,6 +105,10 @@ public class ManagerController(UserManager<Employee> userManager,
         if (employee is null)
             return BadRequest();
 
+        employee.Tasks = employee.Tasks
+                                 .OrderBy(task => task.TargetDate)
+                                 .ToList();
+
         var tasksViewModel = new List<TaskViewModel>();
         foreach(var task in employee.Tasks)
         {
@@ -128,9 +132,12 @@ public class ManagerController(UserManager<Employee> userManager,
     }
 
     [HttpGet]
-    public IActionResult CreateTask()
+    public IActionResult CreateTask(string email)
     {
-        return View();
+        var taskViewModel = new TaskViewModel();
+        taskViewModel.Member = email;
+        ViewBag.Email = email;
+        return View(taskViewModel);
     }
 
     [HttpPost]
@@ -155,9 +162,6 @@ public class ManagerController(UserManager<Employee> userManager,
             return View(request);
 
         employee.Tasks ??= [];
-
-        //employee.Tasks.Add(task);
-
         dbContext.EmployeeTasks.Add(task);
         employee.Tasks.Add(task);      
         await userManager.UpdateAsync(employee);
@@ -173,14 +177,15 @@ public class ManagerController(UserManager<Employee> userManager,
 
     }
 
-    public async Task<IActionResult> RemoveTask(int id)
+    [HttpPost]
+    public async Task<IActionResult> DeleteTask(int taskId, string email)
     {
-        var task = dbContext.EmployeeTasks.FirstOrDefault(task => task.Id == id);
+        var task = dbContext.EmployeeTasks.FirstOrDefault(task => task.Id == taskId);
         if (task is null)
-            return View();
+            return RedirectToAction("Tasks", new { email });
         dbContext.EmployeeTasks.Remove(task);   
         await dbContext.SaveChangesAsync();
-        return View();
+        return RedirectToAction("Tasks", new {email});
     }
 
     [HttpGet]

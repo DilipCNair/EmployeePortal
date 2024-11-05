@@ -22,6 +22,12 @@ public class AccountController(ApplicationDBContext dbContext,
                                   .OrderByDescending(exp => exp.PresentlyWorking)
                                   .ThenByDescending(exp => exp.EndDate)
                                   .ToList();
+
+        foreach(var team in dbContext.Teams)
+        {
+            if (employee != null && (team.Manager == employee || team.Members.Contains(employee)))
+                ViewBag.Team = team.Name;
+        }
         return View(employee);
     }
 
@@ -93,7 +99,7 @@ public class AccountController(ApplicationDBContext dbContext,
     public async Task<IActionResult> Experience(ProfileViewModel request)
     {
         if (!ModelState.IsValid)
-            return BadRequest();
+            return View("Details", request);
 
         if (request.Experience is null)
             return BadRequest();
@@ -470,6 +476,10 @@ public class AccountController(ApplicationDBContext dbContext,
         if (employee == null)
             return View();
 
+        employee.Tasks = employee.Tasks
+                                 .OrderBy(task => task.TargetDate)
+                                 .ToList();
+
         var tasksViewModel = new List<TaskViewModel>();
         foreach (var task in employee.Tasks)
         {
@@ -481,7 +491,7 @@ public class AccountController(ApplicationDBContext dbContext,
                 CreatedDate = task.CreatedDate,
                 TargetDate = task.TargetDate,
                 Status = task.Status.ToString(),
-                Member = email
+                Member = email             
             });
         }
         ViewBag.Email = employee.Email;
@@ -493,7 +503,7 @@ public class AccountController(ApplicationDBContext dbContext,
     }
 
     [HttpGet]
-    public IActionResult Task(int id)
+    public IActionResult Task(int id, int index = 0)
     {
         var task = dbContext.EmployeeTasks
                             .Include(t=>t.Notes)
@@ -503,7 +513,24 @@ public class AccountController(ApplicationDBContext dbContext,
             return BadRequest();
         var taskViewModel = mapper.Map<TaskViewModel>(task);
         taskViewModel.TaskStatus = task.Status;
-
+        if (index == 1)
+        {
+            taskViewModel.DetailsSelected = true;
+            taskViewModel.NotesSelected = false;
+            taskViewModel.DocumentsSelected = false;
+        }
+        if (index == 1)
+        {
+            taskViewModel.DetailsSelected = false;
+            taskViewModel.NotesSelected = true;
+            taskViewModel.DocumentsSelected = false;
+        }
+        if (index == 2)
+        {
+            taskViewModel.DetailsSelected = false;
+            taskViewModel.NotesSelected = false;
+            taskViewModel.DocumentsSelected = true;
+        }
 
         return View(taskViewModel);
     }
@@ -569,7 +596,7 @@ public class AccountController(ApplicationDBContext dbContext,
         task.Notes.Add(note);
         await dbContext.SaveChangesAsync();
 
-        return RedirectToAction("Task",new { id });
+        return RedirectToAction("Task",new { id, index = 1 });
     }
 
 
@@ -597,7 +624,7 @@ public class AccountController(ApplicationDBContext dbContext,
         task.Notes.Remove(note);
         await dbContext.SaveChangesAsync();
 
-        return RedirectToAction("Task", new { id = taskId });
+        return RedirectToAction("Task", new { id = taskId, index = 1 });
     }
 
 
@@ -654,7 +681,7 @@ public class AccountController(ApplicationDBContext dbContext,
 
         await dbContext.SaveChangesAsync();
 
-        return RedirectToAction("Task", new {id=taskId});
+        return RedirectToAction("Task", new {id=taskId, index = 2});
     }
 
 
@@ -677,7 +704,7 @@ public class AccountController(ApplicationDBContext dbContext,
         task.TaskDocuments.Remove(document);
         await dbContext.SaveChangesAsync();
 
-        return RedirectToAction("Task", new { id = taskId });
+        return RedirectToAction("Task", new { id = taskId, index = 2 });
     }
 
     private bool IsValidDocument(IFormFile document)

@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create Task";
 }
 
+
 <div class="col-12 d-flex justify-content-center align-items-center">
     <header>
         <h2 class="display-6">Create Task</h2>
@@ -24,8 +25,8 @@
         <div class="row mb-4 d-flex justify-content-center">
             <label class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-4">
-                <input type="email" placeholder="Enter the name of the member"
-                    class="form-control" asp-for="@Model.Member">
+                <input type="email" value="@ViewBag.Email" disabled class="form-control">
+                <input type="hidden" asp-for="@Model.Member" />
                 <span asp-validation-for="@Model.Member" class="text-danger"></span>
             </div>
         </div>
